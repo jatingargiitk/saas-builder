@@ -1,6 +1,6 @@
 # SaaS-Builder: The AI-Native SaaS Framework
 
-Generate production-ready SaaS apps instantly, powered by AI.
+Generate production-ready SaaS apps instantly, powered by AI Agents.
 
 ## 🚀 What is SaaS-Builder?
 
