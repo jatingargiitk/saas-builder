@@ -50,9 +50,9 @@ class EnvFileCreatorTool(BaseTool):
         """Generate environment content based on tech stack."""
         if tech_stack == "1" or self._get_tech_stack_name(tech_stack) == "Next.js + Supabase":
             # Use provided credentials if available, otherwise use defaults
-            supabase_url = context.get("supabase_url", "https://ijdgpxhosdgcwbmvqmps.supabase.co") if context else "https://ijdgpxhosdgcwbmvqmps.supabase.co"
-            supabase_anon_key = context.get("supabase_anon_key", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqZGdweGhvc2RnY3dibXZxbXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQzNTEwNTQsImV4cCI6MjA0OTkyNzA1NH0.6uk6yvJN5kWzzIoRyTfzewp3VU70eDtRo0VeC4X0nJw") if context else "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqZGdweGhvc2RnY3dibXZxbXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQzNTEwNTQsImV4cCI6MjA0OTkyNzA1NH0.6uk6yvJN5kWzzIoRyTfzewp3VU70eDtRo0VeC4X0nJw"
-            supabase_token = context.get("supabase_token", "sbp_oauth_7d8a0e9a5a89579dbfeb13104be530b1569d6892") if context else "sbp_oauth_7d8a0e9a5a89579dbfeb13104be530b1569d6892"
+            supabase_url = context.get("supabase_url", "") if context else ""
+            supabase_anon_key = context.get("supabase_anon_key", "") if context else ""
+            supabase_token = context.get("supabase_token", "") if context else ""
             
             return (
                 f"NEXT_PUBLIC_SUPABASE_URL={supabase_url}\n"
