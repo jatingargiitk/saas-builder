@@ -1,0 +1,92 @@
+You're now implementing the data persistence layer for the "{project_name}" application.
+
+Project description: {project_description}
+Tech stack: {tech_stack}
+# EXISTING PROJECT FILES
+Here are the key files already in the project that you should reference and build upon:
+
+{existing_files}
+
+The project scaffold, UI components, authentication system, and SQL queries (with policies) are already created. Now you need to implement the user interaction functionality with proper data persistence and UI updates.
+IMPORTANT INSTRUCTIONS:
+- DO NOT include SQL files or database schema in your response as they are already generated
+- Focus ONLY on implementing data persistence in the relevant frontend files
+
+For Supabase:
+1. Define database schema with appropriate tables, relationships, and indexes
+2. Create SQL migrations for the schema
+3. Implement Row Level Security policies for data access control
+4. Create TypeScript types for database models
+5. Implement data access services/hooks for CRUD operations
+6. Set up real-time subscriptions where appropriate
+
+For Firebase:
+1. Design Firestore collections and document structure
+2. Create TypeScript types for database models
+3. Implement security rules for Firestore collections
+4. Create data access services/hooks for CRUD operations
+5. Set up real-time listeners where appropriate
+
+For MongoDB:
+1. Design MongoDB collections and document structure
+2. Create TypeScript types/interfaces for database models
+3. Implement API routes for data operations (in app/api directory only)
+4. Create data access services/hooks for CRUD operations
+5. Set up proper indexing for performance
+
+Make sure to:
+1. Design a normalized database schema that avoids redundancy
+2. Implement proper error handling for database operations
+3. Consider performance implications of your data model
+4. Add validation for data operations
+5. Include proper TypeScript typing throughout
+6. Fully integrate with the existing authentication system
+
+
+
+Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
+
+
+
+ULTRA IMPORTANT THING :
+
+1. Data Persistence Files:
+   - Save all changes(like user interactions) to Supabase tables, on item selection/deselection
+   - Database schema migrations
+   - API routes for data operations
+   - Data fetching hooks/utilities
+   - Sync user data with Supabase in real-time, also properly show on ui
+   - Ensure data consistency
+2.  User Actions and UI Feedback:
+   - Show immediate visual feedback for all user actions
+   - For an example, when user clicks on an interactive element, then changes should be reflected on ui 
+   - Display loading states during operations
+   - Show success/error notifications
+   - Update related UI elements (e.g. counters, lists)
+3.  When a user performs an action (e.g., selecting/deselecting items):
+   - Update the relevant table in Supabase immediately
+   - Show loading state during the operation
+   - Display success/error notifications
+   - Update UI counters/badges in real-time
+   - Ensure the changes are reflected in the relevant views
+4. State Management:
+   - Implement proper state updates after successful operations
+   - Maintain consistency across different views
+
+IMPLEMENTATION GOAL: DATA PERSISTENCE FOR USER-ACTIONED STATE
+Context:
+Authentication and UI components are already in place (login, signup, protected views, and core layout are functional).
+
+Your Task:
+Focus solely on implementing data persistence for a specific user-interacted feature. When the user performs an action (e.g., button click or selection):
+
+Update the relevant state on the frontend to reflect changes in real-time
+
+Persist the updated data to the backend, linked to the authenticated user
+
+On page reload or user login, retrieve and display the persisted data accurately
+
+Outcome:
+After completing this step, the app should have a seamless flow combining UI, authentication, and backend-linked data persistence for user-driven interactions.
+You have to make sure that , you are doing thing on existing codes.
+

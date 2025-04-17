@@ -1,0 +1,87 @@
+# SQL Migrations for Supabase
+
+Generate SQL migrations for setting up the database schema and authentication for a Supabase project.
+
+## Migration Format
+
+Your response should include a "migrations" object alongside "files" in this format:
+
+
+{
+  "migrations": {
+    "001_auth_setup.sql": "-- SQL statements for authentication setup",
+    "002_schema_setup.sql": "-- SQL statements for database schema",
+    "003_policies.sql": "-- SQL statements for security policies",
+
+  },
+  "files": {
+    "src/components/...": "// React component code"
+  }
+}
+
+
+## Required Migrations
+
+### 1. Authentication Setup (001_auth_setup.sql)
+- Enable necessary extensions
+- Create user profiles table linked to auth.users
+- Set up basic RLS (Row Level Security) policies for authentication
+
+Example:
+```sql
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Create profiles table that references auth.users
+CREATE TABLE public.profiles (
+  id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  full_name TEXT,
+  avatar_url TEXT,
+  website TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Set up Row Level Security
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+CREATE POLICY "Public profiles are viewable by everyone" ON public.profiles
+  FOR SELECT USING (true);
+
+CREATE POLICY "Users can update their own profile" ON public.profiles
+  FOR UPDATE USING (auth.uid() = id);
+```
+
+### 2. Schema Setup (002_schema_setup.sql)
+- Create tables based on the project requirements
+- Set up foreign key relationships
+- Add indexes for performance
+- Add constraints for data integrity
+
+### 3. Security Policies (003_policies.sql)
+- Configure Row Level Security policies for all tables
+- Ensure proper data access control
+- Set up triggers if necessary
+
+## Guidelines
+
+1. Each migration should be wrapped in a transaction (BEGIN/COMMIT)
+2. Add helpful comments explaining complex SQL
+3. Include indexes on columns used in WHERE clauses
+4. Use UUID for primary keys when appropriate
+5. Set up proper foreign key constraints
+6. Implement RLS policies for security
+7. Use appropriate PostgreSQL data types
+8. Include timestamps for created_at/updated_at 
+
+CRITICAL  SETUP RULES:
+1. When creating database triggers, ALWAYS wrap them in an IF NOT EXISTS check to prevent the common "trigger already exists" error:(Better to avoid similar trigger)
+   DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'trigger_name') THEN /* create trigger here */ END IF; END $$;
+2. Do not include ON CONFLICT (...) DO NOTHING during initial table seeding with metadata
+ULTRA IMPORTANT:
+SQL MIGRATIONS REQUIREMENTS:
+
+1. Core Tables Setup:
+   Create essential tables with proper relationships: profiles (linked to auth.users), content_items (with title, description, attributes, image_url), user_actions (user_id, status), and action_items (action_id, item_id, properties) - all with appropriate timestamps and RLS policies.
+Make sure to generate all these tables (profiles, content_items, user_actions, action_items) table with 3 sql files, with proper RLS policy.

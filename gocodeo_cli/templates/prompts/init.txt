@@ -1,0 +1,403 @@
+Please generate a complete Next.js application based on the following requirements:
+
+Project description: {project_description}
+Tech stack: {tech_stack}
+
+Available Tech Stacks:
+
+1. Next.js + Supabase 
+   - Modern full-stack app with serverless backend
+   - Features: Authentication, Real-time updates, PostgreSQL database
+   - Best for: Applications requiring real-time features and robust data storage
+   - Includes: 
+     * Pre-configured Supabase client with TypeScript types
+     * Authentication UI components and hooks
+     * Real-time subscriptions setup
+     * Database schema and migrations
+     * Protected API routes
+     * Responsive Tailwind UI components
+ 
+2. Next.js + Firebase
+   - Scalable app with Firebase backend
+   - Features: Authentication, Firestore, Real-time updates
+   - Best for: Applications needing quick setup and Google services integration
+   - Includes:
+     * Firebase Admin SDK and client setup
+     * Authentication context and protected routes
+     * Firestore hooks with TypeScript types
+     * Real-time listeners configuration
+     * Cloud Functions templates
+     * Material UI integration
+
+3. Next.js + MongoDB
+   - Full-stack app with MongoDB database
+   - Features: MongoDB integration, REST API endpoints, Authentication
+   - Best for: Applications with complex data models and custom API needs
+   - Includes:
+     * MongoDB connection with error handling
+     * Mongoose schemas and TypeScript types
+     * API route middleware setup
+     * JWT authentication
+     * Data validation
+     * Chakra UI components
+
+# Entity-Relationship (ER) Diagram for a Generic Web Application
+
+## Entities and Attributes
+
+### User
+- **UserID** (Primary Key)
+- **Username**
+- **Email**
+- **Password** (hashed)
+- **CreatedAt** (timestamp)
+
+### Profile
+- **ProfileID** (Primary Key)
+- **UserID** (Foreign Key referencing User)
+- **Name**
+- **Bio**
+- **CreatedAt** (timestamp)
+
+## Relationships
+
+### User to Profile
+- **Type**: One-to-One
+- **Description**: Each user has exactly one profile.
+- **Representation**: A line from User to Profile with a "1" on both sides.
+
+## SQL Guidelines
+
+1. Use UUID for primary keys
+2. Set up proper indexes for frequently queried fields
+3. Implement Row Level Security for user data
+4. Add created_at/updated_at timestamps on all tables
+5. Use appropriate constraints for data integrity
+
+
+# SQL Migrations Requirements:
+{sql_migrations}
+
+The application must include:
+
+UI/UX Requirements:
+1. Modern, responsive UI using Tailwind CSS
+2. Loading states and error boundaries
+3. Toast notifications for user feedback
+4. Form validation with error messages
+5. Smooth transitions and animations
+6. Mobile-first design approach
+
+Technical Requirements:
+1. TypeScript with strict mode enabled
+2. Proper error handling with custom error classes
+3. API request caching and revalidation
+4. Environment variable validation
+5. Performance optimizations (code splitting, image optimization)
+6. Security headers and CORS configuration
+
+Project Structure:
+1. Feature-based organization (/src/features/*)
+2. Shared components (/src/components/*)
+3. Type definitions (/src/types/*)
+4. API routes (/src/pages/api/*)
+5. Utility functions (/src/utils/*)
+6. Constants and configuration (/src/config/*)
+
+Documentation:
+1. Detailed README.md with:
+   - Project overview
+   - Setup instructions
+   - Environment variables
+   - Available scripts
+   - Deployment guide
+2. API documentation
+3. Component documentation
+4. Contributing guidelines
+
+
+Development Experience:
+1. ESLint and Prettier configuration
+2. Git hooks (husky)
+3. VSCode settings and extensions
+4. Debug configuration
+
+# CRITICAL REQUIREMENTS FOR ALL APPLICATION TYPES
+
+For all application types, your response MUST include:
+
+
+1. Complete Configuration Files:
+   - package.json (with all required dependencies)
+   - tsconfig.json (with proper configuration)
+   - tailwind.config.js (for styling)
+   - next.config.js 
+   - .env.local.example
+
+2. Core Application Pages:
+   - Home/Main listing page
+   - Content detail page
+   - User interaction pages
+   - Action completion pages
+   - User profile/account page
+   - Authentication pages (login/signup)
+
+3. Essential UI Components:
+   - Navigation/Header with user status indicators
+   - Footer component
+   - Content card/grid components
+   - Action summary components
+   - Form components for user inputs
+   - Loading states and error handling
+
+
+Please generate all necessary files and ensure:
+1. All dependencies are properly versioned
+2. Environment variables are documented
+3. TypeScript types are complete
+4. Error handling is comprehensive
+5. Security best practices are followed
+6. Code is well-commented
+7. File structure is organized
+8. Development setup is streamlined 
+UI REQUIREMENTS:
+1. Main layout with responsive navigation (using Next.js App Router only)
+2. Landing page with key sections:
+   - Hero section
+   - Features section
+   - Pricing section (if relevant)
+   - FAQ section
+   - Contact/footer section
+
+3. Core application pages and components for the functionality described in the project description
+4. A design system with reusable UI components:
+   - Button variants
+   - Form components (inputs, checkboxes, etc.)
+   - Card components
+   - Modal/dialog components
+   - Loading states
+   - Alert/toast notifications
+IMPORTANT ROUTING GUIDELINES:
+- Use ONLY the App Router (src/app directory) for all routes
+- DO NOT create or modify any files in the src/pages directory
+- Use the correct Next.js 13+ conventions for layouts, pages, and routing
+- Place reusable components in src/components directory
+- Use client and server components appropriately
+
+CRITICAL STYLING REQUIREMENTS:
+1. Color System Setup:
+   - Define CSS variables in HSL format (e.g., `--background: 0 0% 100%`) and map them to Tailwind colors
+   - Ensure all custom classes are defined within proper `@layer` directives
+   - Use semantic color names (background, foreground) for consistency
+
+2. Theme Configuration:
+   - Maintain consistent color naming between CSS variables and Tailwind config
+   - Properly extend Tailwind theme with mapped CSS variables
+   - Use proper color mapping (e.g., `background: 'hsl(var(--background))'`)
+
+CRITICAL: For Supabase projects, your response MUST include both code files and SQL migrations in this exact format:
+
+{
+  "migrations": {
+    "001_auth_setup.sql": "-- Authentication setup SQL with proper transaction blocks",
+    "002_schema.sql": "-- Schema creation SQL with foreign keys and constraints",
+    "003_policies.sql": "-- Row Level Security policies for data protection"
+  },
+  "files": {
+    "src/app/page.tsx": "// React component code",
+    "src/components/ContentList.tsx": "// More code"
+  }
+}
+
+SQL MIGRATION REQUIREMENTS:
+1. Each SQL file must contain valid PostgreSQL syntax
+2. Wrap migrations in BEGIN/COMMIT transaction blocks
+3. Proper capitalization of SQL keywords (CREATE, ALTER, etc.)
+4. Include helpful comments explaining complex SQL
+5. Use appropriate data types (UUID for IDs is preferred)
+6. Set up proper indexes for performance
+7. Include foreign key constraints for data integrity
+8. Implement Row Level Security policies for all tables
+9. Add timestamps for created_at/updated_at where appropriate
+10. Follow Supabase naming conventions and best practices
+11. Use only ASCII characters in SQL (no Unicode or special characters)
+
+The "migrations" object contains SQL files that will be executed in the Supabase SQL Editor.
+The "files" object contains regular code files that will be written to the filesystem.
+
+Both need to work together seamlessly. The code should correctly reference database tables and columns defined in the migrations. 
+
+CRITICAL RESPONSE RULES:
+
+1. NEVER split your response into multiple parts. DO NOT mention space/length limitations.
+2. DO NOT say things like "I've included only some files" or "Would you like me to continue".
+3. DO NOT add explanatory text inside or after the JSON response.
+4. If you cannot fit all files within context limits, focus on the most essential files.
+5. Prioritize these critical files: package.json, tsconfig.json, and main layout components.
+6. NEVER add notes, explanations, or offers to continue after the response.
+7. Your response MUST be valid JSON with no trailing text.
+8. DO NOT end your JSON with notes like "Due to space limitations". 
+
+You MUST generate a complete, production-ready application with an exceptional UI. Follow these critical UI requirements:
+
+1. Visual Design Excellence:
+   - Create modern, visually engaging UI with clean layout and thoughtful spacing
+   - Use subtle gradients, shadows, and textures for depth and sophistication
+   - Implement harmonious color schemes with proper contrast ratios
+   - Add micro-animations and transitions for enhanced user engagement
+   - Ensure consistent visual hierarchy across all components
+
+2. Component Design:
+   - Design polished, modern components with subtle hover effects
+   - Use glassmorphism or neumorphism for depth where appropriate
+   - Implement floating action buttons with meaningful icons
+   - Create sleek input fields with proper focus states
+   - Add card-based layouts with proper elevation and shadows
+
+3. Layout & Navigation:
+   - Implement sticky header with glass effect and subtle shadow on scroll
+   - Create responsive layouts that adapt seamlessly across all devices
+   - Use proper spacing and alignment for visual balance
+   - Ensure footer sticks to bottom with proper spacing
+   - Add smooth page transitions and loading states
+
+4. Advanced UI Effects:
+   - Multi-layered shadows for depth: 0 2px 4px rgba(0,0,0,0.05), 0 4px 8px rgba(0,0,0,0.1)
+   - Subtle background gradients: linear-gradient(135deg, primary-light 0%, primary-dark 100%)
+   - Micro-interactions on hover and click
+   - Skeleton loading states with subtle animations
+   - Toast notifications with smooth transitions
+
+5. Typography & Colors:
+   - Use modern font combinations (e.g., Poppins for headings, Inter for body)
+   - Implement proper type scale and hierarchy
+   - Use color palette with primary, secondary, and accent colors
+   - Ensure text remains readable with proper contrast
+   - Add subtle text animations for important elements
+6. CONTENT  DISPLAY Authentication Components:
+   - Login form
+   - Signup form
+   - Password reset functionality
+   - Protected routes
+   -Manage auth state globally, persist sessions on app load, and sync updates across the app. 
+   -Handle loading & errors explicitly, use try-catch with toasts, and delay navigation slightly after auth actions to prevent race conditions.
+   - Fetch content from Supabase on homepage load
+   - Use open source or free websites like Unsplash to fetch license-free images.
+    Use ONLY specific, stable Unsplash URLs for content images. It must be valid image:
+   - Format: https://images.unsplash.com/photo-{PHOTO_ID}?w=400&h=400&q=80
+   - Example: https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400&h=400&q=80 (laptop)
+   - Matches the content category and description
+   - Display content items in responsive grid layout
+   - Show actual content images from Unsplash URLs
+   - "DO NOT set invalid image URLs like https://example.com/image.jpg or local image paths like /images/hero-bg.jpg in the project.
+   - Include title, description, and appropriate action buttons
+   - Implement loading states with skeleton components
+      7. Guidelines For Remote Patterns Setup:
+      Ensure all external image sources (e.g., CDN, storage, Unsplash, etc.) are explicitly allowed using remotePatterns in next.config.js
+      e.g., to allow Unsplash images:
+      images: {
+      remotePatterns: [
+         {
+            protocol: 'https',
+            hostname: 'images.unsplash.com',
+         },
+      ],
+      }
+8.Do not pass event handlers (e.g., onClick) directly in Server Components—wrap interactive elements in a Client Component instead.
+IMPORTANT: Do not truncate or omit files. Your response MUST include ALL files necessary to run the application immediately after generation.
+
+CRITICAL UI IMPLEMENTATION NOTES:
+1. DO NOT generate placeholder or incomplete UI components
+2. Every component MUST have proper styling - no unstyled elements
+3. Include ALL necessary CSS/Tailwind classes for complete styling
+4. Implement proper responsive breakpoints
+5. Add hover/focus states for all interactive elements
+
+Your response MUST be a valid JSON object in this format:
+{
+  "files": {
+    "filename": "content",
+    ...
+  },
+  "migrations": {
+    "001_auth_setup.sql": "SQL content",
+    ...
+  }
+} 
+
+Focus on creating a modern, professional UI with consistent styling. Use Tailwind CSS for styling and ensure all components are properly typed with TypeScript.
+
+Do NOT implement authentication or data persistence functionality yet - just create UI components that will later be connected to these systems. You can use mock data to demonstrate the UI.
+
+Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
+
+SQL CONTENT DATA REQUIREMENTS:
+1. Create a SQL migration file for sample content data
+2. Include at least 10 content items with images, titles, descriptions, and attributes
+3. Use Unsplash image URLs for content images (as specified earlier)
+4. Ensure each content item has a unique ID and proper category
+5. Add indexes for performance optimization
+
+ENHANCED UI REQUIREMENTS:
+1. Modify existing UI files to display content from database
+2. Create content list and detail pages with proper loading states
+3. Add components for browsing content by category
+4. Implement responsive image display with proper optimization
+5. Add sorting and filtering capabilities
+
+SUCCESS CRITERIA:
+- Content items load and display correctly from Supabase- UI is responsive and well-styled
+- All components have proper TypeScript types
+- Loading states are implemented
+- Error handling is in place
+- Layout is complete and professional
+
+CONSTRAINTS:
+1. DO NOT implement:
+   - Authentication
+   - Protected routes
+   - User-specific features
+   - User selection/interaction functionality
+   - Transaction/confirmation process
+   -  NO login/signup pages
+   -  NO authentication libraries (@hookform/resolvers/zod, zod, etc.)
+
+2. DO implement:
+   - Public data fetching
+   - Complete UI components
+   - Proper error handling
+   - Loading states
+   - Responsive design
+CRITICAL IMPLEMENTATION GUIDELINES:
+
+1. Naming Conflicts Prevention:
+   When importing external library functions (e.g., from @supabase/ssr), use unique descriptive names for your wrapper functions to prevent TypeScript naming conflicts and improve code clarity (e.g., use initializeSupabaseServer instead of createServerClient).
+
+2. SDK Implementation Best Practices:
+   Always validate environment variables with descriptive errors, use TypeScript generics for type safety, implement proper error handling, and maintain separate client functions for different contexts (server/service role) while following the library's recommended patterns.
+
+CRITICAL SUPABASE SETUP RULES:
+1. For Next.js applications, use createClientComponentClient from @supabase/auth-helpers-nextjs - it handles all auth setup automatically.
+
+2. If you must use @supabase/supabase-js directly, always include the fetch implementation to prevent "undefined fetch" errors during authentication.
+
+IMPLEMENTATION APPROACH:
+1. Client-side: Use createClientComponentClient() in component files for real-time updates and auth
+2. Server-side: Use createServerComponentClient() in Server Components and API routes
+3. Error Prevention: Always wrap Supabase calls in try-catch blocks with toast notifications
+CRITICAL NEXT.JS SERVER/CLIENT RULE:
+DO: import client components in server components using dynamic imports:
+const ClientComponent = dynamic(() => import('./ClientComponent'), { ssr: false });
+
+DON'T: directly import client components in server components:
+import ClientComponent from './ClientComponent'; // Will cause "Unsupported Server Component type: undefined"
+DO NOT SKIP ANY OF THESE REQUIREMENTS. Include ALL in the implementation.
+    ## Key Requirements:
+    1. All user actions must show immediate UI feedback
+    2. Data must be persisted to appropriate Supabase tables
+    3. UI must stay in sync with database state
+    CRITICAL STATE MANAGEMENT RULES:
+   4. Always update and sync global state immediately after successful API responses - this includes updating all related UI elements, persisting changes to the database, and ensuring real-time reflection across all components using the same state.
+   5.Implement proper loading and error handling for every user action - show loading states during operations, use try-catch blocks with user notifications, and add small delays after state changes before navigation or UI updates to ensure consistency.
+   
+In this step :create a proper  ,clean & Modern ui with all layout completed like footer , Navbar etc .

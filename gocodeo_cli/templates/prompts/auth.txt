@@ -1,0 +1,133 @@
+You're now implementing the authentication system for the "{project_name}" application.
+
+Project description: {project_description}
+Tech stack: {tech_stack}
+# EXISTING PROJECT FILES
+Here are the key files already in the project that you should reference and build upon:
+
+{existing_files}
+
+
+The project scaffold and UI components have already been created. Now you need to implement a complete authentication system using the appropriate auth provider for the tech stack.
+
+IMPORTANT ROUTING GUIDELINES:
+- Use ONLY the App Router (src/app directory) for all routes
+- DO NOT create or modify any files in the src/pages directory
+- Use the correct Next.js 13+ routing patterns and middleware
+AUTHENTICATION IMPLEMENTATION CONTEXT:
+You are now implementing authentication for an application where:
+1. Database schema and RLS policies are already set up via migrations
+2. UI components and layouts are already created
+3. Basic content  display  exist
+4. Supabase client utilities are partially configured
+5. DO NOT include SQL files or database schema in your response as they are already generated
+REVIEW PHASE
+
+Analyze Existing Implementation:
+
+1.Review how the authentication client is configured and initialized across the application
+2.Examine the current authentication logic used in the main form/component for sign-in and sign-up
+3.Evaluate how authentication state is managed within the application context or global state
+4.Inspect middleware and server-side logic that supports or enforces authentication flow
+
+Identify Implementation Status:
+
+1.Document which authentication features are currently implemented
+2.List any known bugs, issues, or inconsistencies
+3.Identify missing or incomplete authentication-related functionality
+
+IMPLEMENTATION OBJECTIVES:
+Based on your review, either:
+A) If Authentication is Partially Implemented:
+   - Fix any identified issues in Supabase client initialization
+   - Enhance existing error handling and loading states
+   - Complete missing authentication features
+   - Ensure proper integration with existing components
+
+B) If Authentication Needs Full Implementation:
+   - Set up complete Supabase auth configuration
+   - Implement full authentication flow
+   - Create proper error boundaries and loading states
+   - Integrate with existing UI components
+
+Assess the use of TypeScript types and error handling throughout the authentication logic
+For Supabase authentication:
+1. Set up Supabase authentication client
+2. Create authentication context/provider
+3. Implement sign up, sign in, sign out, and password reset functionality
+4. Create protected routes and redirects using middleware
+5. Add user profile management
+6. Implement Row Level Security policies for Supabase tables
+
+For Firebase authentication:
+1. Set up Firebase authentication client
+2. Create authentication context/provider
+3. Implement sign up, sign in, sign out, and password reset functionality
+4. Create protected routes and redirects using middleware
+5. Add user profile management
+6. Set up security rules for Firestore collections
+
+For MongoDB/custom authentication:
+1. Set up JWT-based authentication
+2. Create authentication API routes (using app/api pattern)
+3. Implement sign up, sign in, sign out, and password reset functionality
+4. Create protected routes and redirects using middleware
+5. Add user profile management
+6. Set up middleware for protecting API routes
+
+Make sure to:
+1. Handle loading and error states
+2. Validate forms and provide helpful error messages
+3. Securely store and manage tokens
+4. Follow security best practices
+5. Fully integrate authentication with the existing UI components
+
+Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
+CRITICAL SUPABASE SETUP RULES:
+1. For Next.js applications, use createClientComponentClient from @supabase/auth-helpers-nextjs - it handles all auth setup automatically.
+
+2. If you must use @supabase/supabase-js directly, always include the fetch implementation to prevent "undefined fetch" errors during authentication.
+
+IMPLEMENTATION APPROACH:
+1. Client-side: Use createClientComponentClient() in component files for real-time updates and auth
+2. Server-side: Use createServerComponentClient() in Server Components and API routes
+3. Error Prevention: Always wrap Supabase calls in try-catch blocks with toast notifications
+
+CORE REQUIREMENTS & SUCCESS METRICS::
+1. Data Flow
+  - Content must load with images/media and metadata
+  - User interaction state must sync with authenticated users
+
+2. User Experience
+   - Seamless login/signup process
+   - Clear loading and error states
+   - Persistent authentication across refreshes
+   - Proper route protection
+3. Authentication Flow:
+   - Users can sign up with email/password
+   - Login process works smoothly
+   - Session persistence functions correctly
+4. Technical Integration
+   - Correct Supabase client usage (server vs client)
+   - TypeScript type safety throughout
+   - Proper error handling and user feedback
+   - Session management
+
+DO NOT SKIP ANY OF THESE REQUIREMENTS. Include ALL in the implementation.
+    ## Key Requirements:
+    1. All user actions must show immediate UI feedback
+    2. Avoid mixing server and client authentication methods
+    3. Implement proper type checking for authentication responses
+    4. Login & sign up flow must be seamless & error free with proper redirection
+    CRITICAL STATE MANAGEMENT RULES:
+   5. Always update and sync global state immediately after successful API responses - this includes updating all related UI elements,  and ensuring real-time reflection across all components using the same state.
+   6.Implement proper loading and error handling for every user action - show loading states during operations, use try-catch blocks with user notifications, and add small delays after state changes before navigation or UI updates to ensure consistency.
+
+CRITICAL ERROR HANDLING & VALIDATION RULES:
+ Component Structure & Validation:
+   -Proper validation of props and data
+   -Clear error boundaries and fallbacks
+   -Correct component structure
+   -Proper handling of server vs client components
+   -Comprehensive error handling
+Remember: Always review thoroughly first the existing implementation before generating or modifying code. Then, either enhance the current logic or build from scratch, ensuring all core functionality works seamlessly and aligns with project goals.(Proper ui + auth flow)
