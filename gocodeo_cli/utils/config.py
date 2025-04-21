@@ -72,7 +72,7 @@ def prompt_for_api_key(model_type: str) -> str:
     # If not found, prompt the user
     console.print(f"\n[yellow]No {key_name} API key found in environment variables.[/yellow]")
     console.print(f"You can set it permanently by adding {key_env} to your .env file.")
-    api_key = typer.prompt(f"Please enter your {key_name} API key")
+    api_key = typer.prompt(f"Please enter your {key_name} API key",hide_input=True)
     
     return api_key
 

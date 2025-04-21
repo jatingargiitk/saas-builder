@@ -76,7 +76,7 @@ class InitializeTool(BaseTool):
             agent.memory.update_context("tech_stack", tech_stack)
             agent.memory.update_context("model", model)
             
-            return "✓  Task1 completed: Project initialized successfully"
+            return "✓  Task1 completed:  UI generated successfully"
             
         except Exception as e:
             agent.memory.add_message("system", f"Project initialization failed: {str(e)}")
@@ -213,7 +213,7 @@ class AddDataTool(BaseTool):
             # Update agent state
             agent.memory.add_message("system", f"Data persistence added with {len(files)} files")
             
-            return "✓  Task3 completed:  Data persistence added successfully"
+            return "✓  Task3 completed: Supabase integration and data persistence configured successfully"
             
         except Exception as e:
             agent.memory.add_message("system", f"Data persistence implementation failed: {str(e)}")

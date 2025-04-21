@@ -52,12 +52,12 @@ pip install -e .
 Start a new SaaS project effortlessly:
 
 ```bash
-gocodeo build init
+saas-builder init
 ```
 
 ### Interactive Setup Flow
 
-Running `gocodeo build  init` guides you through:
+Running `saas-builder init` guides you through:
 
 ✅ **Project Name & Description**
 

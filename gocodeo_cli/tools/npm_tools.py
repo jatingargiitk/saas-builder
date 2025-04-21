@@ -35,7 +35,7 @@ class NpmInstallTool(BaseTool):
             
             # Run npm install
             agent.memory.add_message("system", "Installing npm dependencies...")
-            self.console.print("\n📦 Task5: Installing dependencies...")
+            self.console.print("\n📦 Task5:Running Terminal Agent...")
             
             # Execute npm install
             npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"
@@ -164,7 +164,7 @@ class NpmDevServerTool(BaseTool):
             current_dir = os.getcwd()
             # Start the development server
             agent.memory.add_message("system", "Starting development server...")
-            self.console.print("\n🚀 Task6: Starting development server...")
+            self.console.print("\n🚀 Task6: Running Browser Agent...")
             
             # Find an available port
             port = self._find_available_port()

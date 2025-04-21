@@ -76,9 +76,9 @@ def init(
     
     if tech_stack == "1":
         console.print("\n[bold]For Supabase integration, please provide your credentials:[/bold]")
-        supabase_url = typer.prompt("Supabase Project URL")
-        supabase_anon_key = typer.prompt("Supabase Anon Key")
-        supabase_token = typer.prompt("Supabase Access Token")
+        supabase_url = typer.prompt("Supabase Project URL",hide_input=True)
+        supabase_anon_key = typer.prompt("Supabase Anon Key",hide_input=True)
+        supabase_token = typer.prompt("Supabase Access Token",hide_input=True)
     
     # Show model options if not provided
     if not model:
@@ -123,7 +123,7 @@ def init(
         if sys.platform == 'win32':
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         
-        console.print("🔨 Task1: Initializing project...")
+        console.print("🔨 Task1: Running UI  Agent...")
         result = asyncio.run(agent.run_build_flow(
             name, 
             description, 

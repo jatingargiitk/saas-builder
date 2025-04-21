@@ -128,7 +128,7 @@ class BuildAgent(BaseAgent):
             self.project_state.add_files(self.memory.files)
             
             # Add authentication
-            self.console.print("\n🔒 Task2: Adding authentication...")
+            self.console.print("\n🔒 Task2: Running Auth Agent...")
             auth_result = await self.tools["add_auth"].execute(
                 agent=self, 
                 model=model
@@ -143,7 +143,7 @@ class BuildAgent(BaseAgent):
             self.project_state.add_files(self.memory.files)
             
             # # Add data persistence
-            self.console.print("\n💾 Task3: Adding data persistence...")
+            self.console.print("\n💾 Task3: Running Supabase Agent...")
             data_result = await self.tools["add_data"].execute(
                 agent=self,
                 model=model
