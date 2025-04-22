@@ -21,7 +21,7 @@ Powered by cutting-edge AI models, SaaS-Builder automatically scaffolds full-sta
 
 Watch our project demo to see SaaS-Builder in action:
 
-[▶️ Watch Demo Video(https://gocodeo-asset.s3.ap-south-1.amazonaws.com/saas-builder.mp4)
+[▶️ Watch Demo Video](https://gocodeo-asset.s3.ap-south-1.amazonaws.com/saas-builder.mp4)
 
 See how easily you can:
 - Generate a complete SaaS application from scratch
