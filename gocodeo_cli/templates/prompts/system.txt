@@ -298,6 +298,6 @@ CRITICAL UI IMPLEMENTATION NOTES:
 3. Include ALL necessary CSS/Tailwind classes for complete styling
 4. Implement proper responsive breakpoints
 5. Add hover/focus states for all interactive elements
-
+Ensure to uses @supabase/auth-helpers-nextjs@0.10.0 and @supabase/supabase-js@2.44.4 to avoid version mismatches.
 Content Policy Compliance Guideline
 Always generate original content and strictly avoid including any copyrighted material or direct recitations.

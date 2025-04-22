@@ -52,7 +52,7 @@ class SqlMigrationTool(BaseTool):
             
             # Log start of migrations
             agent.memory.add_message("system", f"Found {len(sql_files)} SQL migration files")
-            self.console.print(f"\n🛢️  Task4: Running {len(sql_files)} SQL migrations...")
+            self.console.print(f"\n🛢️  Task4: Running Supabase Agent...")
             
             # Get env file values for Supabase connection
             supabase_url, supabase_key, supabase_token = self._get_supabase_credentials(project_dir, agent.memory.context)
@@ -158,7 +158,7 @@ class SqlMigrationTool(BaseTool):
             Tuple of (success_flag, fixed_sql_content)
         """
         for attempt in range(1, self.max_retries + 1):
-            self.console.print(f"[yellow]⚠️ Attempting to fix SQL error (attempt {attempt}/{self.max_retries})[/yellow]")
+            self.console.print(f"[yellow]⚠️ Running Debugger agent (attempt {attempt}/{self.max_retries})[/yellow]")
             
             # Get the selected model from agent context
             model = agent.memory.context.get("model", "claude-3.5-sonnet")
@@ -178,8 +178,6 @@ class SqlMigrationTool(BaseTool):
             )
             
             try:
-                # Generate fixed SQL using LLM
-                self.console.print(f"[blue] Using {model} to fix SQL error...[/blue]")
                 
                 # Call LLM to fix SQL
                 system_prompt = "You are an expert SQL fixer. Return only the fixed SQL without any explanations or markdown."

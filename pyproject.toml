@@ -1,6 +1,6 @@
 [project]
-name = "pixicode"
-version = "0.1"
+name = "saas-builder"
+version = "0.2"
 description = "AI-powered CLI tool for build your full-stack  applications in minutes"
 authors = [
     {name = "GoCodeo", email = "support@gocodeo.com"},
@@ -18,7 +18,7 @@ readme="README.md"
 keywords = ["AI", "Code Generation", "Full-Stack", "Agent","CLI" ]
 
 [project.scripts]
-gocodeo = "gocodeo_cli.cli:app"
+saas-builder = "gocodeo_cli.cli:app"
 
 [build-system]
 requires = ["hatchling"]
