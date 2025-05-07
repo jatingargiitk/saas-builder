@@ -135,9 +135,9 @@ class BaseAgent:
         """
         try:
             # Save the raw response
-            debug_file_path = os.path.join(self.project_dir, "debug_response.json")
-            with open(debug_file_path, "w", encoding="utf-8") as f:
-                f.write(response)
+            # debug_file_path = os.path.join(self.project_dir, "debug_response.json")
+            # with open(debug_file_path, "w", encoding="utf-8") as f:
+            #     f.write(response)
             
             # Clean up the response
             response = response.strip()
@@ -159,8 +159,8 @@ class BaseAgent:
                 logger.warning("json_repair package not available, skipping JSON repair")
             
             # Save preprocessed response
-            with open(os.path.join(self.project_dir, "preprocessed_response.json"), "w", encoding="utf-8") as f:
-                f.write(response)
+            # with open(os.path.join(self.project_dir, "preprocessed_response.json"), "w", encoding="utf-8") as f:
+            #     f.write(response)
             
             # Parse JSON response
             try:
