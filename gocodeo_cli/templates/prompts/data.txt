@@ -2,11 +2,51 @@ You're now implementing the data persistence layer for the "{project_name}" appl
 
 Project description: {project_description}
 Tech stack: {tech_stack}
+
+# Reference Implementation
+
+Here is a successful implementation of a similar project to use as reference. Follow these patterns for structure, naming conventions, and code organization:
+
+{reference_code}
+CRITICAL DATA PERSISTENCE RULES:
+1. Form Submissions:
+   - MUST save ALL user interactions to Supabase
+   - Show loading + success/error states
+   - Instant UI feedback
+
+2. Implementation:
+   - COPY EXACT reference patterns
+   - SAME table structure
+   - IDENTICAL error handling
+   - MATCH loading states
+
+3. Requirements:
+   - TypeScript types for all data
+   - Validate all inputs
+   - Disable during processing
+   - Toast notifications
+   - Error boundaries
+CRITICAL IMPLEMENTATION RULES:
+1. ONLY implement features that are EXPLICITLY present in the reference code above
+2. DO NOT add any additional features, tables, or functionality not shown in the reference
+3. Follow the EXACT same file structure and component organization
+4. Use the SAME naming conventions for components, functions, and variables
+5. Implement the SAME level of error handling and validation
+6. If the reference has only cart functionality, DO NOT add wishlist or other features
+7. Keep the implementation FOCUSED and MINIMAL - only what's in the reference
+8. Implement EXACTLY the same data models and table structure as the reference
+9. Use the SAME database operations (insert, update, delete) as shown in the reference
+10. Copy the SAME error handling patterns for database operations
+
 # EXISTING PROJECT FILES
 Here are the key files already in the project that you should reference and build upon:
 
 {existing_files}
-
+FIRST STEP (CRITICAL): 
+1. Compare {reference_code} with {existing_files} to identify ALL missing files and components
+2. Create a complete list of all files that need to be created or modified
+3. Before writing any code, verify that ALL critical Next.js files (layout.tsx, page.tsx) are included
+4. Pay special attention to maintaining the existing directory and component structure
 The project scaffold, UI components, authentication system, and SQL queries (with policies) are already created. Now you need to implement the user interaction functionality with proper data persistence and UI updates.
 IMPORTANT INSTRUCTIONS:
 - DO NOT include SQL files or database schema in your response as they are already generated
@@ -20,19 +60,7 @@ For Supabase:
 5. Implement data access services/hooks for CRUD operations
 6. Set up real-time subscriptions where appropriate
 
-For Firebase:
-1. Design Firestore collections and document structure
-2. Create TypeScript types for database models
-3. Implement security rules for Firestore collections
-4. Create data access services/hooks for CRUD operations
-5. Set up real-time listeners where appropriate
 
-For MongoDB:
-1. Design MongoDB collections and document structure
-2. Create TypeScript types/interfaces for database models
-3. Implement API routes for data operations (in app/api directory only)
-4. Create data access services/hooks for CRUD operations
-5. Set up proper indexing for performance
 
 Make sure to:
 1. Design a normalized database schema that avoids redundancy
@@ -42,7 +70,22 @@ Make sure to:
 5. Include proper TypeScript typing throughout
 6. Fully integrate with the existing authentication system
 
+# Data Implementation Steps
+1. Review reference data patterns:
+   - Check how user interactions are saved
+   - Note real-time update patterns
+   - Document state management approach
 
+2. Compare with current implementation:
+   - Verify table structures match
+   - Check existing data operations
+   - Identify missing functionality
+
+3. Implementation Focus:
+   - Add ONLY data operations present in reference
+   - Match exact table structure
+   - Use same state management patterns
+   - NO additional data features
 
 Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
 
@@ -89,4 +132,7 @@ On page reload or user login, retrieve and display the persisted data accurately
 Outcome:
 After completing this step, the app should have a seamless flow combining UI, authentication, and backend-linked data persistence for user-driven interactions.
 You have to make sure that , you are doing thing on existing codes.
+
+
+
 

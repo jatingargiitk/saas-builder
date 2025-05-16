@@ -134,11 +134,13 @@ class LLMService:
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
         messages.append({"role": "user", "content": prompt})
-       
+        
+        
+        
         response = self.openai.chat.completions.create(
             model=model,
             messages=messages,
-            temperature=0.7,
+            temperature=0.2,
             max_tokens=32000,
         )
         return response.choices[0].message.content
@@ -230,6 +232,7 @@ class LLMService:
                 "SEXUAL": "block_none",
                 "DANGEROUS": "block_none",
             }
+            
             # Generate response
             response = gemini_model.generate_content(
                 full_prompt,
@@ -237,6 +240,7 @@ class LLMService:
                 safety_settings=safety_settings,
                
             )
+           
             if hasattr(response, 'candidates') and response.candidates:
                 for candidate in response.candidates:
                     if hasattr(candidate, 'finish_reason') and candidate.finish_reason == 4:

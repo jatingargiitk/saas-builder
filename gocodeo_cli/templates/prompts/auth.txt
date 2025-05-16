@@ -2,12 +2,50 @@ You're now implementing the authentication system for the "{project_name}" appli
 
 Project description: {project_description}
 Tech stack: {tech_stack}
+# Reference Implementation
+
+Here is a successful implementation of a similar project to use as reference. Follow these patterns for structure, naming conventions, and code organization:
+
+{reference_code}
+
+CRITICAL IMPLEMENTATION RULES:
+1. ONLY implement features that are EXPLICITLY present in the reference code above
+2. DO NOT add any additional features, tables, or functionality not shown in the reference
+3. Follow the EXACT same file structure and component organization
+4. Use the SAME naming conventions for components, functions, and variables
+5. Implement the SAME level of error handling and validation
+6. If the reference has only cart functionality, DO NOT add wishlist or other features
+7. Keep the implementation FOCUSED and MINIMAL - only what's in the reference
+
 # EXISTING PROJECT FILES
 Here are the key files already in the project that you should reference and build upon:
 
 {existing_files}
+FIRST STEP (CRITICAL): 
+1. Compare {reference_code} with {existing_files} to identify ALL missing files and components
+2. Create a complete list of all files that need to be created or modified
+3. Before writing any code, verify that ALL critical Next.js files (layout.tsx, page.tsx) are included
+4. Pay special attention to maintaining the existing directory and component structure
+CRITICAL AUTH IMPLEMENTATION RULES:
+1. Navbar Auth:
+   - MUST use separate NavbarAuth component
+   - Sign in/out button ALWAYS visible in Navbar
+   - Real-time auth state updates
 
+2. State Management:
+   - AuthProvider at root layout
+   - createClientComponentClient for auth
+   - onAuthStateChange for session persistence
 
+3. Component Structure:
+   - COPY EXACT reference components
+   - MATCH reference loading states
+   - SAME error handling patterns
+
+4. Auth Flow:
+   - Instant UI updates on auth changes
+   - Global state sync across components
+   - Route protection with middleware
 The project scaffold and UI components have already been created. Now you need to implement a complete authentication system using the appropriate auth provider for the tech stack.
 
 IMPORTANT ROUTING GUIDELINES:
@@ -49,7 +87,23 @@ B) If Authentication Needs Full Implementation:
    - Implement full authentication flow
    - Create proper error boundaries and loading states
    - Integrate with existing UI components
+# Reference Implementation Analysis
+1. First analyze the reference code structure:
+   - List all auth-related files from reference
+   - Document component hierarchy
+   - Note auth patterns used
 
+2. Compare with existing implementation:
+   - List matching files that exist
+   - Identify missing files
+   - Flag any deviations from reference
+
+3. Implementation Instructions:
+   - Add ONLY missing auth components
+   - Match reference file structure exactly
+   - Use same auth patterns
+   - NO additional features
+   
 Assess the use of TypeScript types and error handling throughout the authentication logic
 For Supabase authentication:
 1. Set up Supabase authentication client
@@ -59,21 +113,8 @@ For Supabase authentication:
 5. Add user profile management
 6. Implement Row Level Security policies for Supabase tables
 
-For Firebase authentication:
-1. Set up Firebase authentication client
-2. Create authentication context/provider
-3. Implement sign up, sign in, sign out, and password reset functionality
-4. Create protected routes and redirects using middleware
-5. Add user profile management
-6. Set up security rules for Firestore collections
 
-For MongoDB/custom authentication:
-1. Set up JWT-based authentication
-2. Create authentication API routes (using app/api pattern)
-3. Implement sign up, sign in, sign out, and password reset functionality
-4. Create protected routes and redirects using middleware
-5. Add user profile management
-6. Set up middleware for protecting API routes
+
 
 Make sure to:
 1. Handle loading and error states
@@ -131,3 +172,5 @@ CRITICAL ERROR HANDLING & VALIDATION RULES:
    -Proper handling of server vs client components
    -Comprehensive error handling
 Remember: Always review thoroughly first the existing implementation before generating or modifying code. Then, either enhance the current logic or build from scratch, ensuring all core functionality works seamlessly and aligns with project goals.(Proper ui + auth flow)
+
+

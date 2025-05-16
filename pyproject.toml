@@ -1,6 +1,6 @@
 [project]
 name = "saas-builder"
-version = "0.3"
+version = "0.0.0.2"
 description = "AI-powered CLI tool for build your full-stack  applications in minutes"
 authors = [
     {name = "GoCodeo", email = "support@gocodeo.com"},
@@ -27,6 +27,20 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["gocodeo_cli"]
+only-packages = true
+
+[tool.hatch.build]
+artifacts = [
+    "gocodeo_cli/templates/**/*.txt",
+    "gocodeo_cli/templates/stacks/*.zip",
+    "gocodeo_cli/templates/prompts/*.txt"
+]
+include = [
+    "gocodeo_cli/**/*.py",
+    "gocodeo_cli/templates/**/*.txt",
+    "gocodeo_cli/templates/stacks/*.zip",
+    "gocodeo_cli/templates/prompts/*.txt"
+]
 
 [tool.ruff]
 line-length = 100 

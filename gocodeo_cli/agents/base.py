@@ -6,6 +6,9 @@ import re
 import logging
 from pathlib import Path
 from rich.console import Console
+import zipfile
+from importlib import resources
+import io
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -276,7 +279,6 @@ class BaseAgent:
                 except json.JSONDecodeError:
                     pass
             
-            # logger.warning(f"Could not validate JSON for {filepath}. Writing as plain text.")
             return content 
     def get_tech_stack_name(self, tech_stack_number):
         """Convert tech stack number to full name"""
@@ -286,3 +288,95 @@ class BaseAgent:
             "3": "Next.js + MongoDB"
         }
         return tech_stacks.get(tech_stack_number, "Unknown Tech Stack")
+        
+    def _get_reference_code_for_stack(self, tech_stack: str) -> str:
+        """
+        Get reference code based on the template stack.
+        Note: We now use template stacks instead of tech stacks for reference code.
+        """
+        template_name = self.memory.context.get("template_name", "growith")
+        
+        return self._load_reference_project(template_name)
+    
+    def _load_reference_project(self, project_name: str) -> str:
+        """
+        Load reference code based on selected template stack.
+        This method now loads from zip files in the templates/stacks directory.
+        """
+
+        template_mapping = {
+            "1": "e-commerce_template",       
+            "2": "marketing_template",         
+            "3": "marketing_template",         
+            "e-commerce_template": "e-commerce_template",
+            "e-commerce_template": "e-commerce_template",
+         
+        }
+        
+        zip_name = template_mapping.get(project_name, "e-commerce_template")
+        return self._load_reference_zip(zip_name)
+    
+    def _load_reference_zip(self, zip_name: str) -> str:
+        """Load reference code from a zip file using importlib.resources."""
+
+        try:
+            resource_path = f"templates/stacks/{zip_name}.zip"
+
+            package = "gocodeo_cli"
+            
+         
+            with resources.files(package).joinpath(resource_path).open('rb') as f:
+                zip_data = io.BytesIO(f.read())
+        except Exception as e:
+            logger.error(f"Failed to load template zip file {zip_name}: {str(e)}")
+            return ""
+
+        relevant_extensions = [
+            '.tsx', '.jsx', '.ts', '.js', '.json', '.css', '.scss',
+            '.html', '.md', '.sql', '.py', '.config.js'
+        ]
+
+        exclude_dirs = ['node_modules', '.next', '.git', '__pycache__', 'dist', 'build', 'out']
+        
+        context_parts = []
+        loaded_files_count = 0
+        max_files = 80 
+        
+        try:
+            with zipfile.ZipFile(zip_data) as zip_ref:
+                file_list = zip_ref.namelist()
+                
+                for file_path in file_list:
+                    if loaded_files_count >= max_files:
+                        break
+                    
+                    if any(excluded in file_path for excluded in exclude_dirs):
+                        continue
+                    
+                    file_ext = os.path.splitext(file_path)[1]
+                    if file_ext not in relevant_extensions and not file_path.endswith('.config.js'):
+                        continue
+                    
+                    try:
+                        file_info = zip_ref.getinfo(file_path)
+        
+                        if file_info.file_size > 100 * 1024:
+                            logger.info(f"Skipping large file: {file_path}")
+                            continue
+                        
+                        content = zip_ref.read(file_path).decode('utf-8')
+                        context_parts.append(f"### Reference File: {file_path}\n```\n{content}\n```\n")
+                        loaded_files_count += 1
+                        
+                    except Exception as e:
+                        logger.error(f"Error reading file {file_path} from zip: {str(e)}")
+                        continue
+        
+        except Exception as e:
+            logger.error(f"Error processing zip file: {str(e)}")
+            return ""
+        finally:
+            zip_data.close()
+        
+        logger.info(f"Loaded {loaded_files_count} files from {zip_name}")
+        return "\n\n".join(context_parts)
