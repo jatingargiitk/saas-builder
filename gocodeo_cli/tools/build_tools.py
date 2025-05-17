@@ -5,6 +5,7 @@ from pathlib import Path
 from ..agents.base import BaseTool, BaseAgent
 from ..services.llm_service import llm
 from ..services.project_state import ProjectStage
+from rich.console import Console
 
 class InitializeTool(BaseTool):
     """Tool for initializing a new project."""
@@ -35,18 +36,17 @@ class InitializeTool(BaseTool):
         description = kwargs.get("description", "No description provided")
         tech_stack = kwargs.get("tech_stack", "1")  # Default to Next.js + Supabase
         model = kwargs.get("model", "claude-3-sonnet")
-        # try:
-        #     domain_analysis = await llm.analyze_project(description, model)
-        #     # Load the init template
-        #     init_template = agent.load_prompt_template("init")
-        #     # Load and format the init prompt
-        # except Exception as e:
-        #     print(e,"error in domain_analysis")
+        template_name = kwargs.get("template_name", "growith")  # Default to SaaS Marketing template
+
+        # Get reference code from the template stack
+        reference_code_context = agent._load_reference_project(template_name)
+        
         init_prompt = agent.format_prompt(
             "init", 
             project_name=name,
             project_description=description,
-            tech_stack=agent.get_tech_stack_name(tech_stack)
+            tech_stack=agent.get_tech_stack_name(tech_stack),
+            reference_code=reference_code_context  
         )
         
         # Load system prompt
@@ -112,13 +112,17 @@ class AddAuthTool(BaseTool):
         # Get existing files context
         existing_files = agent.get_files_context()
         
+        # Get reference code from the template stack
+        reference_code_context = agent._get_reference_code_for_stack("")
+        
         # Load and format the auth prompt
         auth_prompt = agent.format_prompt(
             "auth",
             project_name=agent.memory.context.get("project_name", ""),
             project_description=agent.memory.context.get("project_description", ""),
             tech_stack=agent.memory.context.get("tech_stack", "1"),
-            existing_files=existing_files
+            existing_files=existing_files,
+            reference_code=reference_code_context
         )
         
         # Load system prompt
@@ -181,13 +185,17 @@ class AddDataTool(BaseTool):
         # Get existing files context
         existing_files = agent.get_files_context()
         
+        # Get reference code from the template stack
+        reference_code_context = agent._get_reference_code_for_stack("")
+        
         # Load and format the data prompt
         data_prompt = agent.format_prompt(
             "data",
             project_name=agent.memory.context.get("project_name", ""),
             project_description=agent.memory.context.get("project_description", ""),
             tech_stack=agent.memory.context.get("tech_stack", "1"),
-            existing_files=existing_files
+            existing_files=existing_files,
+            reference_code=reference_code_context
         )
         
         # Load system prompt
@@ -218,3 +226,13 @@ class AddDataTool(BaseTool):
         except Exception as e:
             agent.memory.add_message("system", f"Data persistence implementation failed: {str(e)}")
             return f"❌ Data persistence implementation failed: {str(e)}" 
+
+    def _get_tech_stack_name(self, tech_stack: str) -> str:
+        """Get the full name of a tech stack from its code."""
+        tech_stacks = {
+            "1": "Next.js with Supabase",
+            "2": "Next.js with Firebase",
+            "3": "Next.js with MongoDB"
+        }
+        return tech_stacks.get(tech_stack, "Unknown Tech Stack") 
+    

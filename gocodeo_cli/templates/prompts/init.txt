@@ -1,5 +1,6 @@
 Please generate a complete Next.js application based on the following requirements:
 
+Project name: {project_name}
 Project description: {project_description}
 Tech stack: {tech_stack}
 
@@ -17,29 +18,6 @@ Available Tech Stacks:
      * Protected API routes
      * Responsive Tailwind UI components
  
-2. Next.js + Firebase
-   - Scalable app with Firebase backend
-   - Features: Authentication, Firestore, Real-time updates
-   - Best for: Applications needing quick setup and Google services integration
-   - Includes:
-     * Firebase Admin SDK and client setup
-     * Authentication context and protected routes
-     * Firestore hooks with TypeScript types
-     * Real-time listeners configuration
-     * Cloud Functions templates
-     * Material UI integration
-
-3. Next.js + MongoDB
-   - Full-stack app with MongoDB database
-   - Features: MongoDB integration, REST API endpoints, Authentication
-   - Best for: Applications with complex data models and custom API needs
-   - Includes:
-     * MongoDB connection with error handling
-     * Mongoose schemas and TypeScript types
-     * API route middleware setup
-     * JWT authentication
-     * Data validation
-     * Chakra UI components
 
 # Entity-Relationship (ER) Diagram for a Generic Web Application
 
@@ -209,12 +187,65 @@ CRITICAL: For Supabase projects, your response MUST include both code files and 
   }
 }
 
+# Reference Implementation
+Here is a successful implementation to use as reference:
+
+{reference_code}
+
+CRITICAL IMPLEMENTATION RULES:
+1. ONLY implement features present in the reference code - NO additional features
+2. Copy EXACT file structure and component organization
+3. Use SAME dependencies and versions from reference package.json
+4. Create ONLY UI components that exist in the reference
+5. Use SAME styling patterns and Tailwind classes
+6. If reference has only cart, DO NOT add wishlist or other features
+
+IMPLEMENTATION CHECKLIST:
+- [ ] Match reference package.json exactly , add new package in case using them 
+- [ ] Copy reference configuration files
+- [ ] Create only existing UI components
+- [ ] Follow same component hierarchy
+- [ ] Use same styling patterns
+# New Section to Add at Top:
+
+REFERENCE CODE IMPLEMENTATION RULES:
+1. Structure Match:
+   - File structure MUST match reference exactly
+   - Number of files MUST match reference
+   - File names MUST follow reference pattern
+   - Directory structure MUST mirror reference
+
+2. Feature Match:
+   - ONLY implement features present in reference
+   - NO additional features beyond reference
+   - SAME functionality as reference
+   - SAME data models as reference
+
+3. Implementation Match:
+   - Use SAME dependencies as reference
+   - Follow SAME coding patterns
+   - Match SAME component hierarchy
+   - Copy SAME configuration setup
+
+4. Database Match:
+   - Create SAME tables as reference
+   - Use SAME migration structure
+   - Follow SAME security policies
+   - Match SAME indexes and constraints
+
+5. Validation Rules:
+   - Generated code MUST pass reference structure validation
+   - NO extra tables or columns
+   - NO additional features
+   - NO modified architecture
+Remember: Keep implementation FOCUSED and MINIMAL - only what's in the reference code.
+
 SQL MIGRATION REQUIREMENTS:
 1. Each SQL file must contain valid PostgreSQL syntax
 2. Wrap migrations in BEGIN/COMMIT transaction blocks
 3. Proper capitalization of SQL keywords (CREATE, ALTER, etc.)
 4. Include helpful comments explaining complex SQL
-5. Use appropriate data types (UUID for IDs is preferred)
+5. Use UUIDs for IDs in the format 8-4-4-4-12 (hex only: 0-9, a-f). no g-z letters allowed
 6. Set up proper indexes for performance
 7. Include foreign key constraints for data integrity
 8. Implement Row Level Security policies for all tables
@@ -303,7 +334,7 @@ You MUST generate a complete, production-ready application with an exceptional U
          },
       ],
       }
-8.Do not pass event handlers (e.g., onClick) directly in Server Components—wrap interactive elements in a Client Component instead.
+8.Do not pass event handlers (e.g., onClick) directly in Server Components-wrap interactive elements in a Client Component instead.
 IMPORTANT: Do not truncate or omit files. Your response MUST include ALL files necessary to run the application immediately after generation.
 
 CRITICAL UI IMPLEMENTATION NOTES:

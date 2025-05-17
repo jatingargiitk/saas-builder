@@ -33,6 +33,13 @@ MODELS = {
     "3": "gemini-2.5-pro-preview-03-25"
 }
 
+# Template stacks mapping
+TEMPLATE_STACKS = {
+    "1": ("quickart", "E-commerce Template"),
+    "2": ("growith", "SaaS Marketing Template"),
+    "3": ("growith", "Default Template")
+}
+
 # Set Claude 3.7 Sonnet as default model
 DEFAULT_MODEL = MODELS["1"]
 
@@ -48,24 +55,27 @@ def init(
     Initialize and build a new SaaS project with all necessary components.
     
     This command creates a full SaaS application with:
-    - Project scaffold
+    - Project scaffold based on selected template
     - Authentication system
     - Data persistence
     """
+    # Show template stack options
+    template_name = "growith"  # Default template
+    console.print("\n[bold]Available Template Stacks:[/bold]\n")
+    for key, (_, desc) in TEMPLATE_STACKS.items():
+        console.print(f"{key}. {desc}")
+        if key != "3":  # Add newline except for last item
+            console.print()
+    
+    stack_choice = typer.prompt("\nSelect your template stack (enter number)", default="3")
+    template_name = TEMPLATE_STACKS.get(stack_choice, TEMPLATE_STACKS["3"])[0]
+    
     # Show tech stack options if not provided
     if not tech_stack:
-        console.print("\nAvailable Tech Stacks:\n")
+        console.print("\n[bold]Available Tech Stacks:[/bold]\n")
         console.print("1. Next.js + Supabase")
         console.print("   Modern full-stack app with serverless backend")
         console.print("   Features: Authentication, Real-time, PostgreSQL, TypeScript\n")
-        
-        # console.print("2. Next.js + Firebase")
-        # console.print("   Scalable app with Firebase backend")
-        # console.print("   Features: Authentication, Firestore, Real-time, TypeScript\n")
-        
-        # console.print("3. Next.js + MongoDB")
-        # console.print("   Full-stack app with MongoDB database")
-        # console.print("   Features: MongoDB, REST API, TypeScript, Authentication\n")
         
         tech_stack = typer.prompt("Select your tech stack (enter number)", default="1")
     
@@ -131,7 +141,8 @@ def init(
             model, 
             supabase_url=supabase_url, 
             supabase_anon_key=supabase_anon_key,
-            supabase_token=supabase_token
+            supabase_token=supabase_token,
+            template_name=template_name
         ))
         
         if not result:

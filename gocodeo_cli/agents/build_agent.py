@@ -85,7 +85,8 @@ class BuildAgent(BaseAgent):
         self._cleanup_done = True
     
     async def run_build_flow(self, name: str, description: str, tech_stack: str = "1", model: str = "claude-3-sonnet", 
-                           supabase_url: str = None, supabase_anon_key: str = None, supabase_token: str = None) -> bool:
+                           supabase_url: str = None, supabase_anon_key: str = None, supabase_token: str = None,
+                           template_name: str = "growith") -> bool:
         """
         Run the complete build flow from initialization to completion.
         
@@ -97,6 +98,7 @@ class BuildAgent(BaseAgent):
             supabase_url: Supabase project URL
             supabase_anon_key: Supabase anonymous key
             supabase_token: Supabase access token
+            template_name: Name of the template stack to use (default: growith)
             
         Returns:
             True if build was successful, False otherwise
@@ -110,13 +112,17 @@ class BuildAgent(BaseAgent):
             if supabase_token:
                 self.memory.context["supabase_token"] = supabase_token
             
+            # Store template name in memory context
+            self.memory.context["template_name"] = template_name
+            
             # Run initialization
             init_result = await self.tools["initialize"].execute(
                 agent=self,
                 name=name,
                 description=description,
                 tech_stack=tech_stack,
-                model=model
+                model=model,
+                template_name=template_name
             )
             self.console.print(init_result)
             

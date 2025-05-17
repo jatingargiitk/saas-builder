@@ -61,6 +61,11 @@ Running `saas-builder init` guides you through:
 
 ✅ **Project Name & Description**
 
+📋 **Template Selection**
+- E-commerce Template
+- SaaS Marketing Template
+- Default Template
+
 🧩 **Tech Stack Selection**
 - Next.js + Supabase (with Auth, PostgreSQL, TypeScript, Real-time)
 
