@@ -13,12 +13,9 @@ from openai import OpenAI
 from rich import print
 from rich.console import Console
 from gocodeo_cli.utils import config
-
+import tiktoken
 # Initialize console
 console = Console()
-
-
-
 
 
 class LLMService:
@@ -32,7 +29,6 @@ class LLMService:
         self.gemini_available = False
         
         # We'll initialize clients on-demand when needed
-    
     def _ensure_openai_client(self):
         """Ensure OpenAI client is initialized, prompt for key if needed."""
         if self.openai is not None:
@@ -74,7 +70,7 @@ class LLMService:
         except Exception as e:
             console.print(f"[red]Error configuring Gemini: {str(e)}[/red]")
             self.gemini_available = False
-    
+
     def generate_code(
         self,
         prompt: str,
@@ -195,7 +191,7 @@ class LLMService:
                 
             # Create model instance
             gemini_model = genai.GenerativeModel(model_name)
-            
+           
             # Set generation config to ensure we get complete responses
             generation_config = {
                 "temperature": 0.2,  
@@ -232,7 +228,7 @@ class LLMService:
                 "SEXUAL": "block_none",
                 "DANGEROUS": "block_none",
             }
-            
+          
             # Generate response
             response = gemini_model.generate_content(
                 full_prompt,
@@ -283,6 +279,7 @@ class LLMService:
             
             # Return the text as-is
             return response.text
+            
             
         except Exception as e:
             print(f"Error with Gemini model: {str(e)}")

@@ -93,7 +93,7 @@ class BuildAgent(BaseAgent):
         Args:
             name: Project name
             description: Project description
-            tech_stack: Selected tech stack
+            tech_stack: Selected tech stack (1=Next.js UI Only, 2=Next.js+Supabase)
             model: LLM model to use
             supabase_url: Supabase project URL
             supabase_anon_key: Supabase anonymous key
@@ -122,7 +122,8 @@ class BuildAgent(BaseAgent):
                 description=description,
                 tech_stack=tech_stack,
                 model=model,
-                template_name=template_name
+                template_name=template_name,
+                prompt_template="init_ui.txt" if tech_stack == "1" else "init.txt"
             )
             self.console.print(init_result)
             
@@ -133,48 +134,48 @@ class BuildAgent(BaseAgent):
             self.project_state.initialize(name, description, tech_stack, model)
             self.project_state.add_files(self.memory.files)
             
-            # Add authentication
-            self.console.print("\n🔒 Task2: Running Auth Agent...")
-            auth_result = await self.tools["add_auth"].execute(
-                agent=self, 
-                model=model
-            )
-            self.console.print(auth_result)
-            
-            if "❌" in auth_result:
-                return False
+            # For Next.js + Supabase (tech_stack=2), run the full flow
+            if tech_stack == "2":
+                # Add authentication
+           
+                auth_result = await self.tools["add_auth"].execute(
+                    agent=self, 
+                    model=model
+                )
+                self.console.print(auth_result)
                 
-            # Update project state
-            self.project_state.update_stage(ProjectStage.AUTH_ADDED)
-            self.project_state.add_files(self.memory.files)
-            
-            # # Add data persistence
-            self.console.print("\n💾 Task3: Running Supabase Agent...")
-            data_result = await self.tools["add_data"].execute(
-                agent=self,
-                model=model
-            )
-            self.console.print(data_result)
-            
-            if "❌" in data_result:
-                return False
+                if "❌" in auth_result:
+                    return False
+                    
+                # Update project state
+                self.project_state.update_stage(ProjectStage.AUTH_ADDED)
+                self.project_state.add_files(self.memory.files)
                 
-            # Update project state
-            self.project_state.update_stage(ProjectStage.DATA_ADDED)
-            self.project_state.add_files(self.memory.files)
-            
-            # Create environment file
-            env_result = await self.tools["create_env"].execute(
-                agent=self,
-                tech_stack=tech_stack
-            )
-            self.console.print(env_result)
-            
-            if "❌" in env_result:
-                return False
-            
-            # Run SQL migrations if tech stack is Supabase
-            if tech_stack == "1" or self._get_tech_stack_name(tech_stack) == "Next.js with Supabase":
+         
+                data_result = await self.tools["add_data"].execute(
+                    agent=self,
+                    model=model
+                )
+                self.console.print(data_result)
+                
+                if "❌" in data_result:
+                    return False
+                    
+                # Update project state
+                self.project_state.update_stage(ProjectStage.DATA_ADDED)
+                self.project_state.add_files(self.memory.files)
+                
+                # Create environment file
+                env_result = await self.tools["create_env"].execute(
+                    agent=self,
+                    tech_stack=tech_stack
+                )
+                self.console.print(env_result)
+                
+                if "❌" in env_result:
+                    return False
+                
+                # Run SQL migrations for Supabase
                 sql_result = await self.tools["run_migrations"].execute(agent=self)
                 self.console.print(sql_result)
                 

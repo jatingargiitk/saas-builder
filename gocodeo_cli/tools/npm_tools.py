@@ -7,6 +7,7 @@ import platform
 import signal
 from rich.console import Console
 from ..agents.base import BaseTool, BaseAgent
+from ..utils.progress import ProgressSpinner
 
 class NpmInstallTool(BaseTool):
     """Tool for installing npm dependencies."""
@@ -33,9 +34,18 @@ class NpmInstallTool(BaseTool):
             # Change to project directory
             os.chdir(agent.project_dir)
             
+            # Get the tech stack from agent's memory context
+            tech_stack = agent.memory.context.get("tech_stack", None)
+            # If tech_stack is 1 (UI only), use task number 2, otherwise use 5
+            task_number = 2 if tech_stack == "1" else 5
+            self.console.print("\n")
+
+            # Create and start progress spinner
+            spinner = ProgressSpinner(f"📦 Task{task_number}: Running Terminal Agent", self.console)
+            spinner.start()
+            
             # Run npm install
             agent.memory.add_message("system", "Installing npm dependencies...")
-            self.console.print("\n📦 Task5:Running Terminal Agent...")
             
             # Execute npm install
             npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"
@@ -48,15 +58,21 @@ class NpmInstallTool(BaseTool):
                 check=False  # Don't raise exception on non-zero exit
             )
             
+            # Stop the spinner before checking result
+            spinner.stop(preserve_message=True)
+            
             # Check result
             if process.returncode == 0:
                 agent.memory.add_message("system", "Dependencies installed successfully")
-                return "✓ Task5 completed: Dependencies installed successfully"
+                return f"✓ Task{task_number} completed: Dependencies installed successfully"
             else:
                 agent.memory.add_message("system", f"Failed to install dependencies: {process.stderr}")
                 return f"❌ Failed to install dependencies: {process.stderr}"
                 
         except Exception as e:
+            # Make sure to stop spinner on error
+            if 'spinner' in locals():
+                spinner.stop(preserve_message=True)
             agent.memory.add_message("system", f"Failed to install dependencies: {str(e)}")
             return f"❌ Failed to install dependencies: {str(e)}"
 
@@ -162,25 +178,31 @@ class NpmDevServerTool(BaseTool):
         try:
             # Print current directory for debugging
             current_dir = os.getcwd()
+            
+            # Get the tech stack from agent's memory context
+            tech_stack = agent.memory.context.get("tech_stack", None)
+            # If tech_stack is 1 (UI only), use task number 3, otherwise use 6
+            task_number = 3 if tech_stack == "1" else 6
+            self.console.print("\n")
+
+            # Create and start progress spinner
+            self.console.print(f"📦 Task{task_number}: Running Browser Agent")
+            
+            
             # Start the development server
             agent.memory.add_message("system", "Starting development server...")
-            self.console.print("\n🚀 Task6: Running Browser Agent...")
             
             # Find an available port
             port = self._find_available_port()
-            self.console.print(f"[blue]ℹ️ Using port {port} for the development server[/blue]")
             
             # Determine the correct command to run
             npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"
             
             # Start server as background process
-            # Use creationflags to create a new process group on Windows
-            # This enables properly terminating the process and its children
             kwargs = {}
             if platform.system() == "Windows":
                 kwargs['creationflags'] = subprocess.CREATE_NEW_PROCESS_GROUP
             else:
-                # On Unix, we want the process to be in its own process group
                 kwargs['preexec_fn'] = os.setsid
             
             # Pass the port to Next.js using the -- -p flag
@@ -191,11 +213,9 @@ class NpmDevServerTool(BaseTool):
                 **kwargs
             )
             
-            # Add info message about how to terminate
-            self.console.print("\n[bold cyan]ℹ️ Press Ctrl+C to terminate the development server[/bold cyan]")
-            
             # Give it a few seconds to start
             time.sleep(4)
+
             
             # Check if server is still running
             if self.process.poll() is None:
@@ -206,10 +226,13 @@ class NpmDevServerTool(BaseTool):
                 url = f"http://localhost:{port}"
                 browser_success = self._open_in_browser(url)
                 
+                # Add info message about how to terminate
+                self.console.print("\n[bold cyan]ℹ️ Press Ctrl+C to terminate the development server[/bold cyan]")
+                
                 if browser_success:
-                    return f"✓ Task 6 completed: Development server started successfully and opened in browser at {url}"
+                    return f"✓ Task {task_number} completed: Development server started successfully and opened in browser at {url}"
                 else:
-                    return f"✓ Task 6 completed: Development server started successfully at {url}"
+                    return f"✓ Task {task_number} completed: Development server started successfully at {url}"
             else:
                 # Server failed to start
                 stdout, stderr = self.process.communicate()
@@ -218,6 +241,8 @@ class NpmDevServerTool(BaseTool):
                 return f"❌ Failed to start development server: {error_message}"
                 
         except Exception as e:
+            # Make sure to stop spinner on error
+
             agent.memory.add_message("system", f"Failed to start development server: {str(e)}")
             return f"❌ Failed to start development server: {str(e)}"
     

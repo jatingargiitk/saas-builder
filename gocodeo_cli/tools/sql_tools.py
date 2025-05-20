@@ -52,7 +52,7 @@ class SqlMigrationTool(BaseTool):
             
             # Log start of migrations
             agent.memory.add_message("system", f"Found {len(sql_files)} SQL migration files")
-            self.console.print(f"\n🛢️  Task4: Running Supabase Agent...")
+            self.console.print(f"\n🛢️  Task4: Running Supabase Agent")
             
             # Get env file values for Supabase connection
             supabase_url, supabase_key, supabase_token = self._get_supabase_credentials(project_dir, agent.memory.context)
@@ -80,7 +80,7 @@ class SqlMigrationTool(BaseTool):
                     sql_content = f.read()
                 
                 # Execute SQL
-                self.console.print(f"  ↳ Running {file_name}...")
+                self.console.print(f"  ↳ Running {file_name}")
                 
                 try:
                     # Execute the SQL via Supabase API

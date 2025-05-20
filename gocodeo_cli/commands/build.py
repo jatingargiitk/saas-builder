@@ -48,7 +48,7 @@ def init(
     name: str = typer.Option(None, "--name", "-n", prompt="What's your project name?"),
     description: str = typer.Option(None, "--description", "-d", prompt="Describe your application"),
     directory: Optional[str] = typer.Option(None, "--directory", "-dir", help="Project directory (defaults to project name)"),
-    tech_stack: Optional[str] = typer.Option(None, "--tech-stack", "-t", help="Tech stack to use (1=Next.js+Supabase, 2=Next.js+Firebase, 3=Next.js+MongoDB)"),
+    tech_stack: Optional[str] = typer.Option(None, "--tech-stack", "-t", help="Tech stack to use (1=Next.js UI Only, 2=Next.js+Supabase)"),
     model: Optional[str] = typer.Option(None, "--model", "-m", help="LLM model to use")
 ):
     """
@@ -73,8 +73,11 @@ def init(
     # Show tech stack options if not provided
     if not tech_stack:
         console.print("\n[bold]Available Tech Stacks:[/bold]\n")
-        console.print("1. Next.js + Supabase")
-        console.print("   Modern full-stack app with serverless backend")
+        console.print("1. Next.js (UI Only)")
+        console.print("   Modern frontend-focused application")
+        console.print("   Features: Beautiful UI, TypeScript, Tailwind CSS\n")
+        console.print("2. Next.js + Supabase")
+        console.print("   Full-stack app with serverless backend")
         console.print("   Features: Authentication, Real-time, PostgreSQL, TypeScript\n")
         
         tech_stack = typer.prompt("Select your tech stack (enter number)", default="1")
@@ -84,7 +87,7 @@ def init(
     supabase_anon_key = None
     supabase_token = None
     
-    if tech_stack == "1":
+    if tech_stack == "2":
         console.print("\n[bold]For Supabase integration, please provide your credentials:[/bold]")
         supabase_url = typer.prompt("Supabase Project URL",hide_input=True)
         supabase_anon_key = typer.prompt("Supabase Anon Key",hide_input=True)
@@ -133,7 +136,6 @@ def init(
         if sys.platform == 'win32':
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         
-        console.print("🔨 Task1: Running UI  Agent...")
         result = asyncio.run(agent.run_build_flow(
             name, 
             description, 

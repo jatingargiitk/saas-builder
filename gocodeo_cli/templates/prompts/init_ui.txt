@@ -1,0 +1,92 @@
+Please generate a complete Next.js application focused on UI/UX based on the following requirements:
+
+Project name: {project_name}
+Project description: {project_description}
+Tech stack: Next.js (UI Only)
+
+# Development Priority Order:
+1. Error-free, production-ready UI code that runs immediately
+2. Clean and attractive Hero section as the main focus
+3. Professional Navbar/Header component
+4. Responsive Footer component
+5. Additional UI components based on project description
+
+# UI/UX Requirements:
+1. Modern, responsive UI using Tailwind CSS
+2. Mobile-first design approach
+3. Beautiful and intuitive user interface
+4. Clean typography and spacing
+5. Smooth transitions and animations
+6. High-quality free images from Unsplash (no placeholder URLs)
+7. Consistent color scheme and design system
+8. Proper component spacing and layout structure
+
+# Core Components Structure:
+1. Hero Section:
+   - Engaging headline and subtext
+   - High-quality background image
+   - Clear call-to-action buttons
+   - Responsive on all devices
+
+2. Navbar/Header:
+   - Clean and minimal design
+   - Responsive navigation menu
+   - Mobile hamburger menu
+   - Smooth transitions
+
+3. Footer:
+   - Organized link sections
+   - Social media links
+   - Copyright information
+   - Responsive layout
+
+Technical Requirements:
+1. TypeScript with strict mode enabled
+2. Component-driven architecture
+3. Tailwind CSS for styling (no CSS errors)
+4. Optimized performance with Next.js best practices
+5. Proper error boundaries and fallbacks
+6. Reusable UI components
+7. Responsive design breakpoints
+8. Modern image optimization
+
+Project Structure:
+1. /app - Next.js 13+ App Router pages
+2. /components - Reusable UI components
+   - /components/layout - Layout components
+   - /components/ui - UI elements
+   - /components/sections - Page sections
+3. /styles - Global styles and Tailwind config
+6. /types - TypeScript definitions
+
+CRITICAL IMPLEMENTATION RULES:
+1. NO backend integration or Supabase code
+2. NO database migrations or API routes
+3. Focus on UI components ONLY
+4. AVOID COMMON CSS ERRORS:
+   - Use hsl(var(--input)) instead of var(--input)
+   - Format: border-[hsl(var(--input))] NOT border-input
+   - Format: focus-visible:ring-[hsl(var(--ring))] NOT focus-visible:ring-ring
+   - Always use square brackets for Tailwind CSS variables: [hsl(var(--variable))]
+
+5. Ensure responsive design works on all devices
+6. Use only App Router (no pages directory)
+7. Include proper TypeScript types
+8. Maintain clean code structure
+9. FOLLOW THE REFERENCE CODE STRUCTURE closely for components and styling
+10. Use ONLY specific, stable Unsplash URLs for content images. It must be valid image:
+   - Format: https://images.unsplash.com/photo-{PHOTO_ID}?w=400&h=400&q=80
+   - Example: https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400&h=400&q=80 (laptop)
+   - Matches the content category and description
+REFERENCE CODE GUIDELINES:
+- Study the reference code structure carefully before generating code
+- Follow the component organization and naming conventions
+- Use the same styling patterns and Tailwind approaches
+- Adapt the UI elements to match the project description
+- Match the code quality and error handling approaches
+
+Reference Code:
+{reference_code}
+IMPORTANT: The reference code provided is from an e-commerce UI application. Use it as a structural and styling reference, but adapt the content to match the project description. Follow the patterns, component organization, and styling approaches while creating a UI that fits the specified requirements."
+            
+Please generate a complete UI-focused Next.js application with the above requirements. Focus on creating a beautiful, error-free, and maintainable frontend application. Start with the core layout components (Hero, Navbar, Footer) and ensure they are fully functional and responsive before adding additional features. The reference code provides valuable patterns and structures - follow them closely while adapting to the specific project requirements. 
