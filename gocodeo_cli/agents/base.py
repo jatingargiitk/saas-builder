@@ -98,8 +98,8 @@ class BaseAgent:
         for key, value in kwargs.items():
             formatted_prompt = formatted_prompt.replace(f"{{{key}}}", str(value))
         
-        # Special handling for init template
-        if template_name in ["init", "scaffold"]:
+        # Special handling for init template - now works with both template_name and template_content
+        if template_name in ["init", "scaffold"] or "{sql_migrations}" in formatted_prompt:
             sql_migrations_template = self.load_prompt_template("sql_migrations")
             formatted_prompt = formatted_prompt.replace("{sql_migrations}", sql_migrations_template)
         
@@ -283,9 +283,8 @@ class BaseAgent:
     def get_tech_stack_name(self, tech_stack_number):
         """Convert tech stack number to full name"""
         tech_stacks = {
-            "1": "Next.js + Supabase",
-            "2": "Next.js + Firebase",
-            "3": "Next.js + MongoDB"
+            "1": "Next.js (UI Only)",
+            "2": "Next.js + Supabase"
         }
         return tech_stacks.get(tech_stack_number, "Unknown Tech Stack")
         
@@ -304,12 +303,18 @@ class BaseAgent:
         This method now loads from zip files in the templates/stacks directory.
         """
 
+        # Special case for UI-only model (tech_stack="1")
+        tech_stack = self.memory.context.get("tech_stack", "")
+        if tech_stack == "1":
+            return self._load_reference_zip("sample_ui_e-commerce")
+
         template_mapping = {
             "1": "e-commerce_template",       
             "2": "marketing_template",         
             "3": "marketing_template",         
             "e-commerce_template": "e-commerce_template",
-            "e-commerce_template": "e-commerce_template",
+            "marketing_template": "marketing_template",
+            "growith": "marketing_template"
          
         }
         

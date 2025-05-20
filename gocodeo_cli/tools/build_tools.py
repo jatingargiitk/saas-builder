@@ -6,6 +6,7 @@ from ..agents.base import BaseTool, BaseAgent
 from ..services.llm_service import llm
 from ..services.project_state import ProjectStage
 from rich.console import Console
+from ..utils.progress import ProgressSpinner
 
 class InitializeTool(BaseTool):
     """Tool for initializing a new project."""
@@ -15,6 +16,7 @@ class InitializeTool(BaseTool):
             name="initialize",
             description="Initialize project scaffold with basic structure"
         )
+        self.console = Console()
     
     async def execute(self, agent: BaseAgent, **kwargs) -> str:
         """
@@ -37,25 +39,31 @@ class InitializeTool(BaseTool):
         tech_stack = kwargs.get("tech_stack", "1")  # Default to Next.js + Supabase
         model = kwargs.get("model", "claude-3-sonnet")
         template_name = kwargs.get("template_name", "growith")  # Default to SaaS Marketing template
-
-        # Get reference code from the template stack
-        reference_code_context = agent._load_reference_project(template_name)
+        prompt_template = kwargs.get("prompt_template", "init_ui.txt" if tech_stack == "1" else "init.txt")
+        prompt_content = agent.load_prompt_template(prompt_template.replace(".txt", ""))
         
-        init_prompt = agent.format_prompt(
-            "init", 
-            project_name=name,
-            project_description=description,
-            tech_stack=agent.get_tech_stack_name(tech_stack),
-            reference_code=reference_code_context  
-        )
+        # Store tech_stack in memory context before loading reference code
+        agent.memory.update_context("tech_stack", tech_stack)
         
-        # Load system prompt
-        system_prompt = agent.load_prompt_template("system")
-        
-        # Generate scaffold code - we don't print here since the command already prints the message
-        # agent.console.print("🔄 Initializing project...")
+        # Create and start progress spinner
+        spinner = ProgressSpinner("🔨 Task1: Running UI Agent", self.console)
+        spinner.start()
         
         try:
+            # Get reference code from the template stack - pass both template_name and tech_stack
+            reference_code_context = agent._load_reference_project(template_name)
+            
+            init_prompt = agent.format_prompt(
+                template_content=prompt_content,
+                project_name=name,
+                project_description=description,
+                tech_stack=agent.get_tech_stack_name(tech_stack),
+                reference_code=reference_code_context  
+            )
+            
+            # Load system prompt
+            system_prompt = agent.load_prompt_template("system")
+            
             response = llm.generate_code(
                 prompt=init_prompt,
                 model=model,  # Use the exact model passed in, don't override
@@ -64,6 +72,9 @@ class InitializeTool(BaseTool):
             
             # Process response and write files
             files = agent.process_response(response)
+            
+            # Stop the spinner before returning result
+            spinner.stop(preserve_message=True)
             
             if not files:
                 agent.memory.add_message("system", "Project initialization failed: No files generated")
@@ -79,6 +90,8 @@ class InitializeTool(BaseTool):
             return "✓  Task1 completed:  UI generated successfully"
             
         except Exception as e:
+            # Make sure to stop spinner on error
+            spinner.stop(preserve_message=True)
             agent.memory.add_message("system", f"Project initialization failed: {str(e)}")
             return f"❌ Project initialization failed: {str(e)}"
 
@@ -90,6 +103,7 @@ class AddAuthTool(BaseTool):
             name="add_auth",
             description="Add authentication system to the project"
         )
+        self.console = Console()
     
     async def execute(self, agent: BaseAgent, **kwargs) -> str:
         """
@@ -109,30 +123,30 @@ class AddAuthTool(BaseTool):
         # Extract project details
         model = agent.memory.context.get("model", kwargs.get("model", "claude-3-sonnet"))
         
-        # Get existing files context
-        existing_files = agent.get_files_context()
-        
-        # Get reference code from the template stack
-        reference_code_context = agent._get_reference_code_for_stack("")
-        
-        # Load and format the auth prompt
-        auth_prompt = agent.format_prompt(
-            "auth",
-            project_name=agent.memory.context.get("project_name", ""),
-            project_description=agent.memory.context.get("project_description", ""),
-            tech_stack=agent.memory.context.get("tech_stack", "1"),
-            existing_files=existing_files,
-            reference_code=reference_code_context
-        )
-        
-        # Load system prompt
-        system_prompt = agent.load_prompt_template("system")
-        
-        # Generate auth code - don't print here since the build_agent already prints this
-        # agent.console.print("🔒 Adding authentication...")
+        # Create and start progress spinner
+        spinner = ProgressSpinner("🔒 Task2: Running Auth Agent", self.console)
+        spinner.start()
         
         try:
-           
+            # Get existing files context
+            existing_files = agent.get_files_context()
+            
+            # Get reference code from the template stack
+            reference_code_context = agent._get_reference_code_for_stack("")
+            
+            # Load and format the auth prompt
+            auth_prompt = agent.format_prompt(
+                "auth",
+                project_name=agent.memory.context.get("project_name", ""),
+                project_description=agent.memory.context.get("project_description", ""),
+                tech_stack=agent.memory.context.get("tech_stack", "1"),
+                existing_files=existing_files,
+                reference_code=reference_code_context
+            )
+            
+            # Load system prompt
+            system_prompt = agent.load_prompt_template("system")
+            
             response = llm.generate_code(
                 prompt=auth_prompt,
                 model=model,
@@ -141,6 +155,9 @@ class AddAuthTool(BaseTool):
             
             # Process response and write files
             files = agent.process_response(response)
+            
+            # Stop the spinner before returning result
+            spinner.stop(preserve_message=True)
             
             if not files:
                 agent.memory.add_message("system", "Authentication implementation failed: No files generated")
@@ -152,6 +169,8 @@ class AddAuthTool(BaseTool):
             return "✓  Task2 completed:  Authentication added successfully"
             
         except Exception as e:
+            # Make sure to stop spinner on error
+            spinner.stop(preserve_message=True)
             agent.memory.add_message("system", f"Authentication implementation failed: {str(e)}")
             return f"❌ Authentication implementation failed: {str(e)}"
 
@@ -163,6 +182,7 @@ class AddDataTool(BaseTool):
             name="add_data",
             description="Add data persistence layer to the project"
         )
+        self.console = Console()
     
     async def execute(self, agent: BaseAgent, **kwargs) -> str:
         """
@@ -182,29 +202,30 @@ class AddDataTool(BaseTool):
         # Extract project details
         model = agent.memory.context.get("model", kwargs.get("model", "claude-3-sonnet"))
         
-        # Get existing files context
-        existing_files = agent.get_files_context()
-        
-        # Get reference code from the template stack
-        reference_code_context = agent._get_reference_code_for_stack("")
-        
-        # Load and format the data prompt
-        data_prompt = agent.format_prompt(
-            "data",
-            project_name=agent.memory.context.get("project_name", ""),
-            project_description=agent.memory.context.get("project_description", ""),
-            tech_stack=agent.memory.context.get("tech_stack", "1"),
-            existing_files=existing_files,
-            reference_code=reference_code_context
-        )
-        
-        # Load system prompt
-        system_prompt = agent.load_prompt_template("system")
-        
-        # Generate data persistence code - don't print here since the build_agent already prints this
-        # agent.console.print("💾 Adding data persistence...")
+        # Create and start progress spinner
+        spinner = ProgressSpinner("💾 Task3: Running Supabase Agent", self.console)
+        spinner.start()
         
         try:
+            # Get existing files context
+            existing_files = agent.get_files_context()
+            
+            # Get reference code from the template stack
+            reference_code_context = agent._get_reference_code_for_stack("")
+            
+            # Load and format the data prompt
+            data_prompt = agent.format_prompt(
+                "data",
+                project_name=agent.memory.context.get("project_name", ""),
+                project_description=agent.memory.context.get("project_description", ""),
+                tech_stack=agent.memory.context.get("tech_stack", "1"),
+                existing_files=existing_files,
+                reference_code=reference_code_context
+            )
+            
+            # Load system prompt
+            system_prompt = agent.load_prompt_template("system")
+            
             response = llm.generate_code(
                 prompt=data_prompt,
                 model=model,
@@ -213,6 +234,9 @@ class AddDataTool(BaseTool):
             
             # Process response and write files
             files = agent.process_response(response)
+            
+            # Stop the spinner before returning result
+            spinner.stop(preserve_message=True)
             
             if not files:
                 agent.memory.add_message("system", "Data persistence implementation failed: No files generated")
@@ -224,8 +248,10 @@ class AddDataTool(BaseTool):
             return "✓  Task3 completed: Supabase integration and data persistence configured successfully"
             
         except Exception as e:
+            # Make sure to stop spinner on error
+            spinner.stop(preserve_message=True)
             agent.memory.add_message("system", f"Data persistence implementation failed: {str(e)}")
-            return f"❌ Data persistence implementation failed: {str(e)}" 
+            return f"❌ Data persistence implementation failed: {str(e)}"
 
     def _get_tech_stack_name(self, tech_stack: str) -> str:
         """Get the full name of a tech stack from its code."""
