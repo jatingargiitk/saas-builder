@@ -122,7 +122,7 @@ class AddAuthTool(BaseTool):
         
         # Extract project details
         model = agent.memory.context.get("model", kwargs.get("model", "claude-3-sonnet"))
-        
+        self.console.print("\n")
         # Create and start progress spinner
         spinner = ProgressSpinner("🔒 Task2: Running Auth Agent", self.console)
         spinner.start()
@@ -201,7 +201,8 @@ class AddDataTool(BaseTool):
         
         # Extract project details
         model = agent.memory.context.get("model", kwargs.get("model", "claude-3-sonnet"))
-        
+        self.console.print("\n")
+
         # Create and start progress spinner
         spinner = ProgressSpinner("💾 Task3: Running Supabase Agent", self.console)
         spinner.start()

@@ -38,7 +38,8 @@ class NpmInstallTool(BaseTool):
             tech_stack = agent.memory.context.get("tech_stack", None)
             # If tech_stack is 1 (UI only), use task number 2, otherwise use 5
             task_number = 2 if tech_stack == "1" else 5
-            
+            self.console.print("\n")
+
             # Create and start progress spinner
             spinner = ProgressSpinner(f"📦 Task{task_number}: Running Terminal Agent", self.console)
             spinner.start()
@@ -182,10 +183,11 @@ class NpmDevServerTool(BaseTool):
             tech_stack = agent.memory.context.get("tech_stack", None)
             # If tech_stack is 1 (UI only), use task number 3, otherwise use 6
             task_number = 3 if tech_stack == "1" else 6
-            
+            self.console.print("\n")
+
             # Create and start progress spinner
-            spinner = ProgressSpinner(f"🚀 Task{task_number}: Running Browser Agent", self.console)
-            spinner.start()
+            self.console.print(f"📦 Task{task_number}: Running Browser Agent")
+            
             
             # Start the development server
             agent.memory.add_message("system", "Starting development server...")
@@ -213,9 +215,7 @@ class NpmDevServerTool(BaseTool):
             
             # Give it a few seconds to start
             time.sleep(4)
-            
-            # Stop the spinner before checking result
-            spinner.stop(preserve_message=True)
+
             
             # Check if server is still running
             if self.process.poll() is None:
@@ -242,8 +242,7 @@ class NpmDevServerTool(BaseTool):
                 
         except Exception as e:
             # Make sure to stop spinner on error
-            if 'spinner' in locals():
-                spinner.stop(preserve_message=True)
+
             agent.memory.add_message("system", f"Failed to start development server: {str(e)}")
             return f"❌ Failed to start development server: {str(e)}"
     
