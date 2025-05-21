@@ -41,7 +41,10 @@ class InitializeTool(BaseTool):
         template_name = kwargs.get("template_name", "growith")  # Default to SaaS Marketing template
         prompt_template = kwargs.get("prompt_template", "init_ui.txt" if tech_stack == "1" else "init.txt")
         prompt_content = agent.load_prompt_template(prompt_template.replace(".txt", ""))
-        
+        # extra_prompt = ""
+        # if template_name == "crm" and tech_stack == "2":
+        #     extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files present in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
+        # prompt_content += extra_prompt
         # Store tech_stack in memory context before loading reference code
         agent.memory.update_context("tech_stack", tech_stack)
         
@@ -119,7 +122,8 @@ class AddAuthTool(BaseTool):
         # Update agent state
         agent.state = "ADDING_AUTH"
         agent.memory.add_message("system", "Starting authentication implementation")
-        
+        tech_stack = kwargs.get("tech_stack", "1")
+        template_name = kwargs.get("template_name", "1")
         # Extract project details
         model = agent.memory.context.get("model", kwargs.get("model", "claude-3-sonnet"))
         self.console.print("\n")
@@ -128,6 +132,13 @@ class AddAuthTool(BaseTool):
         spinner.start()
         
         try:
+            # Load the auth prompt template
+            prompt_content = agent.load_prompt_template("auth")
+            extra_prompt = ""
+            if template_name == "crm" and tech_stack == "2":
+                extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files present in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
+            prompt_content += extra_prompt
+
             # Get existing files context
             existing_files = agent.get_files_context()
             
@@ -136,7 +147,7 @@ class AddAuthTool(BaseTool):
             
             # Load and format the auth prompt
             auth_prompt = agent.format_prompt(
-                "auth",
+                template_content=prompt_content,
                 project_name=agent.memory.context.get("project_name", ""),
                 project_description=agent.memory.context.get("project_description", ""),
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
@@ -208,6 +219,14 @@ class AddDataTool(BaseTool):
         spinner.start()
         
         try:
+            # Load the data prompt template
+            prompt_content = agent.load_prompt_template("data")
+            tech_stack = kwargs.get("tech_stack", "1")
+            template_name = kwargs.get("template_name", "1")
+            extra_prompt = ""
+            if template_name == "crm" and tech_stack == "2":
+                extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files must be Created & present , mainly in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
+            prompt_content += extra_prompt
             # Get existing files context
             existing_files = agent.get_files_context()
             
@@ -216,7 +235,7 @@ class AddDataTool(BaseTool):
             
             # Load and format the data prompt
             data_prompt = agent.format_prompt(
-                "data",
+                template_content=prompt_content,
                 project_name=agent.memory.context.get("project_name", ""),
                 project_description=agent.memory.context.get("project_description", ""),
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
@@ -257,8 +276,8 @@ class AddDataTool(BaseTool):
     def _get_tech_stack_name(self, tech_stack: str) -> str:
         """Get the full name of a tech stack from its code."""
         tech_stacks = {
-            "1": "Next.js with Supabase",
-            "2": "Next.js with Firebase",
+            "1": "Next.js (UI Only)",
+            "2": "Next.js + Supabase",
             "3": "Next.js with MongoDB"
         }
         return tech_stacks.get(tech_stack, "Unknown Tech Stack") 

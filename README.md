@@ -64,10 +64,12 @@ Running `saas-builder init` guides you through:
 📋 **Template Selection**
 - E-commerce Template
 - SaaS Marketing Template
+- CRM Template
 - Default Template
 
 🧩 **Tech Stack Selection**
-- Next.js + Supabase (with Auth, PostgreSQL, TypeScript, Real-time)
+- Next.js (UI Only): For frontend-only projects
+- Next.js + Supabase: For full-stack projects with authentication, data persistence, and real-time features
 
 🔑 **Supabase Configuration**
 - Project URL, Anon Key, Access Token

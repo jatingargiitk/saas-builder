@@ -37,7 +37,8 @@ MODELS = {
 TEMPLATE_STACKS = {
     "1": ("quickart", "E-commerce Template"),
     "2": ("growith", "SaaS Marketing Template"),
-    "3": ("growith", "Default Template")
+    "3": ("crm", "CRM  Template"),
+    "4": ("growith", "Default Template")
 }
 
 # Set Claude 3.7 Sonnet as default model
@@ -64,11 +65,11 @@ def init(
     console.print("\n[bold]Available Template Stacks:[/bold]\n")
     for key, (_, desc) in TEMPLATE_STACKS.items():
         console.print(f"{key}. {desc}")
-        if key != "3":  # Add newline except for last item
+        if key != "4":  # Add newline except for last item
             console.print()
     
-    stack_choice = typer.prompt("\nSelect your template stack (enter number)", default="3")
-    template_name = TEMPLATE_STACKS.get(stack_choice, TEMPLATE_STACKS["3"])[0]
+    stack_choice = typer.prompt("\nSelect your template stack (enter number)", default="4")
+    template_name = TEMPLATE_STACKS.get(stack_choice, TEMPLATE_STACKS["4"])[0]
     
     # Show tech stack options if not provided
     if not tech_stack:
@@ -157,14 +158,14 @@ def init(
 
 
 
-def get_tech_stack_name(choice: str) -> str:
-    """Get the display name for a tech stack choice."""
-    stacks = {
-        "1": "Next.js + Supabase",
-        "2": "Next.js + Firebase",
-        "3": "Next.js + MongoDB"
-    }
-    return stacks.get(choice, "Unknown")
+# def get_tech_stack_name(choice: str) -> str:
+#     """Get the display name for a tech stack choice."""
+#     stacks = {
+#         "1": "Next.js + Supabase",
+#         "2": "Next.js + Firebase",
+#         "3": "Next.js + MongoDB"
+#     }
+#     return stacks.get(choice, "Unknown")
 
 def _validate_api_key_for_model(model: str) -> None:
     """Validate API key for the selected model, prompt if missing."""

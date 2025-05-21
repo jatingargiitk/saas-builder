@@ -311,10 +311,12 @@ class BaseAgent:
         template_mapping = {
             "1": "e-commerce_template",       
             "2": "marketing_template",         
-            "3": "marketing_template",         
+            "3": "crm",
+            "4": "marketing_template",         
             "e-commerce_template": "e-commerce_template",
             "marketing_template": "marketing_template",
-            "growith": "marketing_template"
+            "growith": "marketing_template",
+            "crm": "crm",
          
         }
         

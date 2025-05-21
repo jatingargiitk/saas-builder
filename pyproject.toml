@@ -1,6 +1,6 @@
 [project]
 name = "saas-builder"
-version = "0.4"
+version = "0.5"
 description = "AI-powered CLI tool for build your full-stack  applications in minutes"
 authors = [
     {name = "GoCodeo", email = "support@gocodeo.com"},
