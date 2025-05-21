@@ -69,7 +69,7 @@ Running `saas-builder init` guides you through:
 
 🧩 **Tech Stack Selection**
 - Next.js (UI Only): For frontend-only projects
-- Next.js + Supabase: For full-stack projects with authentication, database, and real-time features
+- Next.js + Supabase: For full-stack projects with authentication, data persistence, and real-time features
 
 🔑 **Supabase Configuration**
 - Project URL, Anon Key, Access Token
