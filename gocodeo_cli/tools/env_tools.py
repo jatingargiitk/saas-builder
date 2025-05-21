@@ -48,7 +48,8 @@ class EnvFileCreatorTool(BaseTool):
     
     def _get_env_content(self, tech_stack: str, context: Dict[str, Any] = None) -> str:
         """Generate environment content based on tech stack."""
-        if tech_stack == "1" or self._get_tech_stack_name(tech_stack) == "Next.js + Supabase":
+        if tech_stack == "1" or tech_stack == "2" or self._get_tech_stack_name(tech_stack) == "Next.js + Supabase":
+
             # Use provided credentials if available, otherwise use defaults
             supabase_url = context.get("supabase_url", "") if context else ""
             supabase_anon_key = context.get("supabase_anon_key", "") if context else ""
@@ -59,15 +60,7 @@ class EnvFileCreatorTool(BaseTool):
                 f"NEXT_PUBLIC_SUPABASE_ANON_KEY={supabase_anon_key}\n"
                 f"SUPABASE_ACCESS_TOKEN={supabase_token}"
             )
-        elif tech_stack == "2" or self._get_tech_stack_name(tech_stack) == "Next.js + Firebase":
-            return (
-                "NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_API_KEY\n"
-                "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=YOUR_AUTH_DOMAIN\n"
-                "NEXT_PUBLIC_FIREBASE_PROJECT_ID=YOUR_PROJECT_ID\n"
-                "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=YOUR_STORAGE_BUCKET\n"
-                "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=YOUR_MESSAGING_SENDER_ID\n"
-                "NEXT_PUBLIC_FIREBASE_APP_ID=YOUR_APP_ID\n"
-            )
+        
         else:  # MongoDB or other stacks
             return (
                 "MONGODB_URI=YOUR_MONGODB_URI\n"
@@ -75,11 +68,11 @@ class EnvFileCreatorTool(BaseTool):
                 "NEXTAUTH_URL=http://localhost:3000\n"
             )
     
-    def _get_tech_stack_name(self, tech_stack_number):
-        """Convert tech stack number to full name."""
+    def _get_tech_stack_name(self, tech_stack: str) -> str:
+        """Get the full name of a tech stack from its code."""
         tech_stacks = {
-            "1": "Next.js + Supabase",
-            "2": "Next.js + Firebase",
-            "3": "Next.js + MongoDB"
+            "1": "Next.js (UI Only)",
+            "2": "Next.js + Supabase",
+            "3": "Next.js with MongoDB"
         }
-        return tech_stacks.get(tech_stack_number, "Unknown Tech Stack") 
+        return tech_stacks.get(tech_stack, "Unknown Tech Stack") 
