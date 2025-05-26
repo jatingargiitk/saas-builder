@@ -162,11 +162,11 @@ class LLMService:
             "role": "user",
             "content": prompt
         })
-        
+        model="claude-sonnet-4-20250514"
         response = self.anthropic.messages.create(
             model=model,
             messages=messages,
-            temperature=0.7,
+            temperature=0,
             max_tokens=50000,
         )
         
@@ -188,7 +188,7 @@ class LLMService:
                 model_name = model
             else:
                 model_name = model
-                
+         
             # Create model instance
             gemini_model = genai.GenerativeModel(model_name)
            
@@ -228,6 +228,7 @@ class LLMService:
                 "SEXUAL": "block_none",
                 "DANGEROUS": "block_none",
             }
+          
             # Generate response
             response = gemini_model.generate_content(
                 full_prompt,

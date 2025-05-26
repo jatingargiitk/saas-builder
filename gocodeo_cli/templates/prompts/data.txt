@@ -8,6 +8,9 @@ Tech stack: {tech_stack}
 Here is a successful implementation of a similar project to use as reference. Follow these patterns for structure, naming conventions, and code organization:
 
 {reference_code}
+
+{description_reference_code}
+
 CRITICAL DATA PERSISTENCE RULES:
 1. Form Submissions:
    - MUST save ALL user interactions to Supabase
@@ -43,7 +46,7 @@ Here are the key files already in the project that you should reference and buil
 
 {existing_files}
 FIRST STEP (CRITICAL): 
-1. Compare {reference_code} with {existing_files} to identify ALL missing files and components
+1. Compare reference_code with existing_files to identify ALL missing files and components
 2. Create a complete list of all files that need to be created or modified
 3. Before writing any code, verify that ALL critical Next.js files (layout.tsx, page.tsx) are included
 4. Pay special attention to maintaining the existing directory and component structure
