@@ -192,6 +192,8 @@ Here is a successful implementation to use as reference:
 
 {reference_code}
 
+{description_reference_code}
+
 CRITICAL IMPLEMENTATION RULES:
 1. ONLY implement features present in the reference code - NO additional features
 2. Copy EXACT file structure and component organization

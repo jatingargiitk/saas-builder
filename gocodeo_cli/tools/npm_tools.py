@@ -111,6 +111,7 @@ class NpmDevServerTool(BaseTool):
                 # Store PID for debug logging but don't display it
                 pid = self.process.pid
                 
+                
                 if platform.system() == "Windows":
                     # On Windows, use taskkill to kill the process tree
                     subprocess.run(['taskkill', '/F', '/T', '/PID', str(pid)],
@@ -194,6 +195,7 @@ class NpmDevServerTool(BaseTool):
             
             # Find an available port
             port = self._find_available_port()
+          
             
             # Determine the correct command to run
             npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"

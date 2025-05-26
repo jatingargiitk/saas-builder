@@ -30,7 +30,7 @@ console = Console()
 MODELS = {
     "1": "claude-3-7-sonnet-20250219",
     "2": "gpt-4.1",
-    "3": "gemini-2.5-pro-preview-03-25"
+    "3": "gemini-2.5-pro-preview-05-06"
 }
 
 # Template stacks mapping

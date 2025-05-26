@@ -7,6 +7,7 @@ from ..services.llm_service import llm
 from ..services.project_state import ProjectStage
 from rich.console import Console
 from ..utils.progress import ProgressSpinner
+from .constants import CRM_REFERENCE_CODE_DESCRIPTION
 
 class InitializeTool(BaseTool):
     """Tool for initializing a new project."""
@@ -41,10 +42,38 @@ class InitializeTool(BaseTool):
         template_name = kwargs.get("template_name", "growith")  # Default to SaaS Marketing template
         prompt_template = kwargs.get("prompt_template", "init_ui.txt" if tech_stack == "1" else "init.txt")
         prompt_content = agent.load_prompt_template(prompt_template.replace(".txt", ""))
-        # extra_prompt = ""
-        # if template_name == "crm" and tech_stack == "2":
-        #     extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files present in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
-        # prompt_content += extra_prompt
+        extra_prompt = ""
+        if template_name == "crm" and tech_stack == "2":
+            extra_prompt = """
+                ## ULTRA SUPER PRO IMPORTANT:
+
+                1. BLOCKING COMPONENT AND IMPORT VALIDATION:
+                - MUST verify and create ALL @/components/ui/* files with full implementation BEFORE any code generation
+                - MUST scan and import ALL lucide-react icons in a SINGLE statement (import { Icon1, Icon2 } from "lucide-react") - NO icon usage without import
+
+                2. STRICT ROUTING AND FILE STRUCTURE:
+                - MUST match ALL routes to ONE pattern (/page or /dashboard/page) based on dashboard link in SideBar.tsx
+                - MUST create page files BEFORE adding navigation links - NO routes without existing pages
+                - MUST follow reference project structure exactly - NO custom layouts or paths
+                - Never use JSX syntax like `<button ref={ref} {...props} />` directly in a JS/TS file body—ensure it’s inside a valid function or component block.
+
+                3. DEPENDENCY ENFORCEMENT:
+                - MUST implement ALL imported components/modules BEFORE using them
+                - MUST verify EVERY import statement resolves to an existing file
+                - ZERO tolerance for missing files or broken imports
+
+                4. REFERENCE CODE COMPLIANCE:
+                - MUST replicate reference project's exact folder structure
+                - MUST implement all dashboard routes with proper mock data
+                - NO custom routing patterns or structural changes
+                - DO NOT add user profile checks or conditional auth logic in dashboard—follow reference implementation exactly.
+                5.DASHBOARD IMPLEMENTATION:
+                -Replicate exact folder structure and layout from reference project
+                -Change only internal content to match CRM use case
+                -Follow reference sidebar and dashboard page patterns precisely
+                  """
+
+        prompt_content += extra_prompt
         # Store tech_stack in memory context before loading reference code
         agent.memory.update_context("tech_stack", tech_stack)
         
@@ -55,13 +84,15 @@ class InitializeTool(BaseTool):
         try:
             # Get reference code from the template stack - pass both template_name and tech_stack
             reference_code_context = agent._load_reference_project(template_name)
+            desc_reference_code_context = CRM_REFERENCE_CODE_DESCRIPTION if template_name == "crm" and tech_stack == "2" else ""
             
             init_prompt = agent.format_prompt(
                 template_content=prompt_content,
                 project_name=name,
                 project_description=description,
                 tech_stack=agent.get_tech_stack_name(tech_stack),
-                reference_code=reference_code_context  
+                reference_code=reference_code_context,
+                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else ""
             )
             
             # Load system prompt
@@ -136,7 +167,36 @@ class AddAuthTool(BaseTool):
             prompt_content = agent.load_prompt_template("auth")
             extra_prompt = ""
             if template_name == "crm" and tech_stack == "2":
-                extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files present in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
+                extra_prompt = """
+                ## ULTRA SUPER PRO IMPORTANT:
+
+                1. BLOCKING COMPONENT AND IMPORT VALIDATION:
+                - MUST verify and create ALL @/components/ui/* files with full implementation BEFORE any code generation
+                - MUST scan and import ALL lucide-react icons in a SINGLE statement (import { Icon1, Icon2 } from "lucide-react") - NO icon usage without import
+
+                2. STRICT ROUTING AND FILE STRUCTURE:
+                - MUST match ALL routes to ONE pattern (/page or /dashboard/page) based on dashboard link in SideBar.tsx
+                - MUST create page files BEFORE adding navigation links - NO routes without existing pages
+                - MUST follow reference project structure exactly - NO custom layouts or paths
+                - Never use JSX syntax like `<button ref={ref} {...props} />` directly in a JS/TS file body—ensure it’s inside a valid function or component block.
+
+
+                3. DEPENDENCY ENFORCEMENT:
+                - MUST implement ALL imported components/modules BEFORE using them
+                - MUST verify EVERY import statement resolves to an existing file
+                - ZERO tolerance for missing files or broken imports
+
+                4. REFERENCE CODE COMPLIANCE:
+                - MUST replicate reference project's exact folder structure
+                - MUST implement all dashboard routes with proper mock data
+                - NO custom routing patterns or structural changes
+                - DO NOT add user profile checks or conditional auth logic in dashboard—follow reference implementation exactly.
+                DASHBOARD IMPLEMENTATION:
+                5.DASHBOARD IMPLEMENTATION:
+                -Replicate exact folder structure and layout from reference project
+                -Change only internal content to match CRM use case
+                -Follow reference sidebar and dashboard page patterns precisely
+                  """
             prompt_content += extra_prompt
 
             # Get existing files context
@@ -144,6 +204,7 @@ class AddAuthTool(BaseTool):
             
             # Get reference code from the template stack
             reference_code_context = agent._get_reference_code_for_stack("")
+            desc_reference_code_context = CRM_REFERENCE_CODE_DESCRIPTION if template_name == "crm" and tech_stack == "2" else ""
             
             # Load and format the auth prompt
             auth_prompt = agent.format_prompt(
@@ -152,7 +213,8 @@ class AddAuthTool(BaseTool):
                 project_description=agent.memory.context.get("project_description", ""),
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
                 existing_files=existing_files,
-                reference_code=reference_code_context
+                reference_code=reference_code_context,
+                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else ""
             )
             
             # Load system prompt
@@ -225,13 +287,42 @@ class AddDataTool(BaseTool):
             template_name = kwargs.get("template_name", "1")
             extra_prompt = ""
             if template_name == "crm" and tech_stack == "2":
-                extra_prompt = "\n ## ULTRA IMPORTANT: Verify that all files must be Created & present , mainly in the 'ui' directory (like toast-related files and other shared components used elsewhere) exist, are correctly named, syntactically valid, and fully implemented if used in the code."
+                extra_prompt = """
+                ## ULTRA SUPER PRO IMPORTANT:
+
+                1. BLOCKING COMPONENT AND IMPORT VALIDATION:
+                - MUST verify and create ALL @/components/ui/* files with full implementation BEFORE any code generation
+                - MUST scan and import ALL lucide-react icons in a SINGLE statement (import { Icon1, Icon2 } from "lucide-react") - NO icon usage without import
+
+                2. STRICT ROUTING AND FILE STRUCTURE:
+                - MUST match ALL routes to ONE pattern (/page or /dashboard/page) based on dashboard link in SideBar.tsx
+                - MUST create page files BEFORE adding navigation links - NO routes without existing pages
+                - MUST follow reference project structure exactly - NO custom layouts or paths
+                - Never use JSX syntax like `<button ref={ref} {...props} />` directly in a JS/TS file body—ensure it’s inside a valid function or component block.
+
+                3. DEPENDENCY ENFORCEMENT:
+                - MUST implement ALL imported components/modules BEFORE using them
+                - MUST verify EVERY import statement resolves to an existing file
+                - ZERO tolerance for missing files or broken imports
+
+                4. REFERENCE CODE COMPLIANCE:
+                - MUST replicate reference project's exact folder structure
+                - MUST implement all dashboard routes with proper mock data
+                - NO custom routing patterns or structural changes
+                - DO NOT add user profile checks or conditional auth logic in dashboard—follow reference implementation exactly.
+                
+                5.DASHBOARD IMPLEMENTATION:
+                -Replicate exact folder structure and layout from reference project
+                -Change only internal content to match CRM use case
+                -Follow reference sidebar and dashboard page patterns precisely
+                  """
             prompt_content += extra_prompt
             # Get existing files context
             existing_files = agent.get_files_context()
             
             # Get reference code from the template stack
             reference_code_context = agent._get_reference_code_for_stack("")
+            desc_reference_code_context = CRM_REFERENCE_CODE_DESCRIPTION if template_name == "crm" and tech_stack == "2" else ""
             
             # Load and format the data prompt
             data_prompt = agent.format_prompt(
@@ -240,7 +331,8 @@ class AddDataTool(BaseTool):
                 project_description=agent.memory.context.get("project_description", ""),
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
                 existing_files=existing_files,
-                reference_code=reference_code_context
+                reference_code=reference_code_context,
+                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else ""
             )
             
             # Load system prompt
