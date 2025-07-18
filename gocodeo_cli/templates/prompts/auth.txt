@@ -9,7 +9,10 @@ Here is a successful implementation of a similar project to use as reference. Fo
 {reference_code}
 
 {description_reference_code}
+# Current Project Structure
+The current project has the following structure:
 
+{project_structure}
 CRITICAL IMPLEMENTATION RULES:
 1. ONLY implement features that are EXPLICITLY present in the reference code above
 2. DO NOT add any additional features, tables, or functionality not shown in the reference
@@ -173,6 +176,13 @@ CRITICAL ERROR HANDLING & VALIDATION RULES:
    -Correct component structure
    -Proper handling of server vs client components
    -Comprehensive error handling
+CRITICAL ERROR PREVENTION:
+1. NEVER reference files that aren't explicitly created
+2. ALWAYS verify component imports resolve to files you've created
+3. NEVER mix conflicting client libraries (e.g., only use @supabase/auth-helpers-nextjs for auth)
+4. Make sure to use proper supabase functions , imported from correct package & used properly.
+6. NEVER use shorthand imports , wrong functions for Supabase client creation
+
 Remember: Always review thoroughly first the existing implementation before generating or modifying code. Then, either enhance the current logic or build from scratch, ensuring all core functionality works seamlessly and aligns with project goals.(Proper ui + auth flow)
 
 

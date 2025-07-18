@@ -11,6 +11,10 @@ Here is a successful implementation of a similar project to use as reference. Fo
 
 {description_reference_code}
 
+# Current Project Structure
+The current project has the following structure:
+
+{project_structure}
 CRITICAL DATA PERSISTENCE RULES:
 1. Form Submissions:
    - MUST save ALL user interactions to Supabase
@@ -136,6 +140,11 @@ Outcome:
 After completing this step, the app should have a seamless flow combining UI, authentication, and backend-linked data persistence for user-driven interactions.
 You have to make sure that , you are doing thing on existing codes.
 
-
+CRITICAL ERROR PREVENTION:
+1. NEVER reference files that aren't explicitly created
+2. ALWAYS verify component imports resolve to files you've created
+3. NEVER mix conflicting client libraries (e.g., only use @supabase/auth-helpers-nextjs for auth)
+4. Make sure to use proper supabase functions , imported from correct package & used properly.
+6. NEVER use shorthand imports , wrong functions for Supabase client creation
 
 
