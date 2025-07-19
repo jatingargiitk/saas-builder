@@ -228,7 +228,7 @@ class LLMService:
                 "SEXUAL": "block_none",
                 "DANGEROUS": "block_none",
             }
-          
+            
             # Generate response
             response = gemini_model.generate_content(
                 full_prompt,

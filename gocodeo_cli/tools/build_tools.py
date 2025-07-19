@@ -8,6 +8,8 @@ from ..services.project_state import ProjectStage
 from rich.console import Console
 from ..utils.progress import ProgressSpinner
 from .constants import CRM_REFERENCE_CODE_DESCRIPTION
+from ..utils.project_utils import generate_project_tree
+
 
 class InitializeTool(BaseTool):
     """Tool for initializing a new project."""
@@ -206,6 +208,7 @@ class AddAuthTool(BaseTool):
             reference_code_context = agent._get_reference_code_for_stack("")
             desc_reference_code_context = CRM_REFERENCE_CODE_DESCRIPTION if template_name == "crm" and tech_stack == "2" else ""
             
+            project_structure = generate_project_tree(str(agent.project_dir))
             # Load and format the auth prompt
             auth_prompt = agent.format_prompt(
                 template_content=prompt_content,
@@ -214,7 +217,8 @@ class AddAuthTool(BaseTool):
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
                 existing_files=existing_files,
                 reference_code=reference_code_context,
-                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else ""
+                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else "",
+                project_structure=project_structure
             )
             
             # Load system prompt
@@ -323,7 +327,10 @@ class AddDataTool(BaseTool):
             # Get reference code from the template stack
             reference_code_context = agent._get_reference_code_for_stack("")
             desc_reference_code_context = CRM_REFERENCE_CODE_DESCRIPTION if template_name == "crm" and tech_stack == "2" else ""
+            project_structure = generate_project_tree(str(agent.project_dir))
             
+
+            # project_structure=project_structure
             # Load and format the data prompt
             data_prompt = agent.format_prompt(
                 template_content=prompt_content,
@@ -332,7 +339,8 @@ class AddDataTool(BaseTool):
                 tech_stack=agent.memory.context.get("tech_stack", "1"),
                 existing_files=existing_files,
                 reference_code=reference_code_context,
-                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else ""
+                description_reference_code=desc_reference_code_context if template_name == "crm" and tech_stack == "2" else "",
+                project_structure=project_structure
             )
             
             # Load system prompt
