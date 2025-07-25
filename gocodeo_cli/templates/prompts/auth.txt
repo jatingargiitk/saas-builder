@@ -2,187 +2,81 @@ You're now implementing the authentication system for the "{project_name}" appli
 
 Project description: {project_description}
 Tech stack: {tech_stack}
+
 # Reference Implementation
 
 Here is a successful implementation of a similar project to use as reference. Follow these patterns for structure, naming conventions, and code organization:
 
 {reference_code}
 
-{description_reference_code}
+
 # Current Project Structure
 The current project has the following structure:
 
 {project_structure}
-CRITICAL IMPLEMENTATION RULES:
-1. ONLY implement features that are EXPLICITLY present in the reference code above
-2. DO NOT add any additional features, tables, or functionality not shown in the reference
-3. Follow the EXACT same file structure and component organization
-4. Use the SAME naming conventions for components, functions, and variables
-5. Implement the SAME level of error handling and validation
-6. If the reference has only cart functionality, DO NOT add wishlist or other features
-7. Keep the implementation FOCUSED and MINIMAL - only what's in the reference
+
+# AUTHENTICATION IMPLEMENTATION GUIDELINES (React + Flask + SQLite)
+
+## Step 1: UI Foundation
+- Assume all UI components (Navbar, login/register forms, etc.) are already built in the frontend (React).
+- Do NOT modify or add UI components unless explicitly required.
+
+## Step 2: Authentication Logic
+- Implement authentication using JWT cookie-based auth via Flask REST API backend.
+- Support login, logout, and registration flows.
+- Use secure HTTP-only cookies for storing JWT tokens.
+- Ensure proper error handling and user feedback (loading, error, and success states).
+- Sync authentication state globally in the React app (e.g., via context or state management).
+- Protect routes/pages that require authentication (redirect to login if not authenticated).
+- On login/register, set JWT cookie via backend response; on logout, clear the cookie.
+- On app load, check authentication status by verifying the JWT cookie with the backend.
+
+## Step 3: Security & State Management
+- Validate all form inputs and provide clear error messages.
+- Handle all API errors gracefully and show user-friendly notifications.
+- Never expose JWT tokens to JavaScript (use httpOnly cookies only).
+- Use environment variables for secrets and configuration.
+- Ensure all authentication logic is separated from UI components (use hooks/services for API calls).
+- Use TypeScript for all frontend code and Python type hints for backend code.
+
+## Folder Structure
+- frontend/ (React + Vite + TypeScript)
+  - src/
+    - components/
+    - pages/
+    - services/ (API calls for auth)
+    - contexts/ (Auth context/provider)
+    - hooks/
+- backend/ (Flask + SQLite)
+  - app/
+    - api/auth/ (Flask Blueprint for auth routes)
+    - models.py
+    - __init__.py
+    - utils/
+
+# CRITICAL IMPLEMENTATION RULES
+1. ONLY implement features that are EXPLICITLY present in the reference code above.
+2. DO NOT add any additional features, tables, or functionality not shown in the reference.
+3. Follow the EXACT same file structure and component organization.
+4. Use the SAME naming conventions for components, functions, and variables.
+5. Implement the SAME level of error handling and validation.
+6. Keep the implementation FOCUSED and MINIMAL - only what's in the reference.
 
 # EXISTING PROJECT FILES
 Here are the key files already in the project that you should reference and build upon:
 
 {existing_files}
-FIRST STEP (CRITICAL): 
-1. Compare reference_code with existing_files to identify ALL missing files and components
-2. Create a complete list of all files that need to be created or modified
-3. Before writing any code, verify that ALL critical Next.js files (layout.tsx, page.tsx) are included
-4. Pay special attention to maintaining the existing directory and component structure
-CRITICAL AUTH IMPLEMENTATION RULES:
-1. Navbar Auth:
-   - MUST use separate NavbarAuth component
-   - Sign in/out button ALWAYS visible in Navbar
-   - Real-time auth state updates
 
-2. State Management:
-   - AuthProvider at root layout
-   - createClientComponentClient for auth
-   - onAuthStateChange for session persistence
+# IMPLEMENTATION OBJECTIVES
+- Implement login, logout, and registration using JWT cookie auth (Flask backend, React frontend).
+- Ensure global auth state sync and route protection in React.
+- Provide clear error handling and user feedback.
+- Use secure, real-world authentication flows.
+- Maintain a clear separation between frontend and backend code.
 
-3. Component Structure:
-   - COPY EXACT reference components
-   - MATCH reference loading states
-   - SAME error handling patterns
-
-4. Auth Flow:
-   - Instant UI updates on auth changes
-   - Global state sync across components
-   - Route protection with middleware
-The project scaffold and UI components have already been created. Now you need to implement a complete authentication system using the appropriate auth provider for the tech stack.
-
-IMPORTANT ROUTING GUIDELINES:
-- Use ONLY the App Router (src/app directory) for all routes
-- DO NOT create or modify any files in the src/pages directory
-- Use the correct Next.js 13+ routing patterns and middleware
-AUTHENTICATION IMPLEMENTATION CONTEXT:
-You are now implementing authentication for an application where:
-1. Database schema and RLS policies are already set up via migrations
-2. UI components and layouts are already created
-3. Basic content  display  exist
-4. Supabase client utilities are partially configured
-5. DO NOT include SQL files or database schema in your response as they are already generated
-REVIEW PHASE
-
-Analyze Existing Implementation:
-
-1.Review how the authentication client is configured and initialized across the application
-2.Examine the current authentication logic used in the main form/component for sign-in and sign-up
-3.Evaluate how authentication state is managed within the application context or global state
-4.Inspect middleware and server-side logic that supports or enforces authentication flow
-
-Identify Implementation Status:
-
-1.Document which authentication features are currently implemented
-2.List any known bugs, issues, or inconsistencies
-3.Identify missing or incomplete authentication-related functionality
-
-IMPLEMENTATION OBJECTIVES:
-Based on your review, either:
-A) If Authentication is Partially Implemented:
-   - Fix any identified issues in Supabase client initialization
-   - Enhance existing error handling and loading states
-   - Complete missing authentication features
-   - Ensure proper integration with existing components
-
-B) If Authentication Needs Full Implementation:
-   - Set up complete Supabase auth configuration
-   - Implement full authentication flow
-   - Create proper error boundaries and loading states
-   - Integrate with existing UI components
-# Reference Implementation Analysis
-1. First analyze the reference code structure:
-   - List all auth-related files from reference
-   - Document component hierarchy
-   - Note auth patterns used
-
-2. Compare with existing implementation:
-   - List matching files that exist
-   - Identify missing files
-   - Flag any deviations from reference
-
-3. Implementation Instructions:
-   - Add ONLY missing auth components
-   - Match reference file structure exactly
-   - Use same auth patterns
-   - NO additional features
-   
-Assess the use of TypeScript types and error handling throughout the authentication logic
-For Supabase authentication:
-1. Set up Supabase authentication client
-2. Create authentication context/provider
-3. Implement sign up, sign in, sign out, and password reset functionality
-4. Create protected routes and redirects using middleware
-5. Add user profile management
-6. Implement Row Level Security policies for Supabase tables
+Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. Do NOT include any explanations or markdown outside the JSON object. 
 
 
-
-
-Make sure to:
-1. Handle loading and error states
-2. Validate forms and provide helpful error messages
-3. Securely store and manage tokens
-4. Follow security best practices
-5. Fully integrate authentication with the existing UI components
-
-Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
-CRITICAL SUPABASE SETUP RULES:
-1. For Next.js applications, use createClientComponentClient from @supabase/auth-helpers-nextjs - it handles all auth setup automatically.
-
-2. If you must use @supabase/supabase-js directly, always include the fetch implementation to prevent "undefined fetch" errors during authentication.
-
-IMPLEMENTATION APPROACH:
-1. Client-side: Use createClientComponentClient() in component files for real-time updates and auth
-2. Server-side: Use createServerComponentClient() in Server Components and API routes
-3. Error Prevention: Always wrap Supabase calls in try-catch blocks with toast notifications
-
-CORE REQUIREMENTS & SUCCESS METRICS::
-1. Data Flow
-  - Content must load with images/media and metadata
-  - User interaction state must sync with authenticated users
-
-2. User Experience
-   - Seamless login/signup process
-   - Clear loading and error states
-   - Persistent authentication across refreshes
-   - Proper route protection
-3. Authentication Flow:
-   - Users can sign up with email/password
-   - Login process works smoothly
-   - Session persistence functions correctly
-4. Technical Integration
-   - Correct Supabase client usage (server vs client)
-   - TypeScript type safety throughout
-   - Proper error handling and user feedback
-   - Session management
-
-DO NOT SKIP ANY OF THESE REQUIREMENTS. Include ALL in the implementation.
-    ## Key Requirements:
-    1. All user actions must show immediate UI feedback
-    2. Avoid mixing server and client authentication methods
-    3. Implement proper type checking for authentication responses
-    4. Login & sign up flow must be seamless & error free with proper redirection
-    CRITICAL STATE MANAGEMENT RULES:
-   5. Always update and sync global state immediately after successful API responses - this includes updating all related UI elements,  and ensuring real-time reflection across all components using the same state.
-   6.Implement proper loading and error handling for every user action - show loading states during operations, use try-catch blocks with user notifications, and add small delays after state changes before navigation or UI updates to ensure consistency.
-
-CRITICAL ERROR HANDLING & VALIDATION RULES:
- Component Structure & Validation:
-   -Proper validation of props and data
-   -Clear error boundaries and fallbacks
-   -Correct component structure
-   -Proper handling of server vs client components
-   -Comprehensive error handling
-CRITICAL ERROR PREVENTION:
-1. NEVER reference files that aren't explicitly created
-2. ALWAYS verify component imports resolve to files you've created
-3. NEVER mix conflicting client libraries (e.g., only use @supabase/auth-helpers-nextjs for auth)
-4. Make sure to use proper supabase functions , imported from correct package & used properly.
-6. NEVER use shorthand imports , wrong functions for Supabase client creation
-
-Remember: Always review thoroughly first the existing implementation before generating or modifying code. Then, either enhance the current logic or build from scratch, ensuring all core functionality works seamlessly and aligns with project goals.(Proper ui + auth flow)
-
-
+ULTRA IMPORTANT GUIDELINES -
+- Make sure all the auth related apis are properly implemented in both frontend & backend as well as integrated.
+- Never overhallucinate , Be accurate & follow the reference code.

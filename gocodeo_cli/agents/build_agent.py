@@ -165,35 +165,35 @@ class BuildAgent(BaseAgent):
                 self.project_state.update_stage(ProjectStage.DATA_ADDED)
                 self.project_state.add_files(self.memory.files)
                 
-                # Create environment file
-                env_result = await self.tools["create_env"].execute(
-                    agent=self,
-                    tech_stack=tech_stack
-                )
-                self.console.print(env_result)
+            #     # Create environment file
+            #     env_result = await self.tools["create_env"].execute(
+            #         agent=self,
+            #         tech_stack=tech_stack
+            #     )
+            #     self.console.print(env_result)
                 
-                if "❌" in env_result:
-                    return False
+            #     if "❌" in env_result:
+            #         return False
                 
-                # Run SQL migrations for Supabase
-                sql_result = await self.tools["run_migrations"].execute(agent=self)
-                self.console.print(sql_result)
+            #     # Run SQL migrations for Supabase
+            #     sql_result = await self.tools["run_migrations"].execute(agent=self)
+            #     self.console.print(sql_result)
                 
-                if "❌" in sql_result:
-                    return False
+            #     if "❌" in sql_result:
+            #         return False
             
-            # Install npm dependencies
-            npm_result = await self.tools["npm_install"].execute(agent=self)
-            self.console.print(npm_result)
+            # # Install npm dependencies
+            # npm_result = await self.tools["npm_install"].execute(agent=self)
+            # self.console.print(npm_result)
             
-            if "❌" in npm_result:
-                return False
+            # if "❌" in npm_result:
+            #     return False
             
-            # Start development server
-            dev_result = await self.tools["npm_run_dev"].execute(agent=self)
-            self.console.print(dev_result)
+            # # Start development server
+            # dev_result = await self.tools["npm_run_dev"].execute(agent=self)
+            # self.console.print(dev_result)
             
-            # Build complete
+            # # Build complete
             self.state = AgentState.FINISHED
             self.console.print("\n✅ Build complete!")
             
@@ -201,16 +201,16 @@ class BuildAgent(BaseAgent):
             self._print_build_summary()
             
             # Display prompt about continuing the server or terminating it
-            self.console.print("\n[bold cyan]The development server is running in the background.[/bold cyan]")
-            self.console.print("[bold cyan]Press Ctrl+C to terminate the server and exit.[/bold cyan]")
-            self.console.print("[bold yellow]Important: Closing this terminal window will also terminate the server.[/bold yellow]")
+            # self.console.print("\n[bold cyan]The development server is running in the background.[/bold cyan]")
+            # self.console.print("[bold cyan]Press Ctrl+C to terminate the server and exit.[/bold cyan]")
+            # self.console.print("[bold yellow]Important: Closing this terminal window will also terminate the server.[/bold yellow]")
             
             # Wait for user to decide to terminate
-            try:
-                while True:
-                    await asyncio.sleep(1)
-            except (KeyboardInterrupt, asyncio.CancelledError):
-                self.cleanup()
+            # try:
+            #     while True:
+            #         await asyncio.sleep(1)
+            # except (KeyboardInterrupt, asyncio.CancelledError):
+            self.cleanup()
             
             return True
             
