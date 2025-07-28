@@ -4,18 +4,18 @@ Generate production-ready SaaS apps instantly, powered by autonomous AI Agents.
 
 ## 🚀 What is SaaS-Builder?
 
-SaaS-Builder is an AI-native framework designed to transform high-level ideas into fully functional SaaS applications—rapidly, effortlessly, and at scale.
+SaaS-Builder is an AI-native framework designed to transform high-level ideas into fully functional SaaS applications rapidly, effortlessly, and at scale.
 
-Powered by cutting-edge AI models, SaaS-Builder automatically scaffolds full-stack Next.js apps with built-in authentication, real-time features, complete TypeScript integration, and production-grade database schemas.
+Powered by cutting-edge AI models, SaaS-Builder automatically scaffolds full-stack React apps with Flask backend and SQLite database, built-in authentication, real-time features, complete TypeScript integration, and production-grade database schemas.
 
 ## ✨ Key Features
 
-- 🤖 **AI-Powered Generation**: Instantly build full-stack Next.js apps with Supabase
-- 🏗️ **Complete Application Stack**: Frontend, backend, authentication, real-time, and database migrations—all handled automatically
-- 🔐 **Integrated Authentication**: Seamless Supabase auth setup with protected routes
-- 🎯 **TypeScript First**: Clean, strongly-typed codebases by default
-- ⚡ **Real-time Capabilities**: Real-time features via native Supabase integration
-- 📊 **Automated Database Setup**: Auto-generated schemas and migrations
+- 🤖 **AI-Powered Generation**: Instantly build full-stack React apps with Flask & SQLite
+- 🏗️ **Complete Application Stack**: Frontend (React), backend (Flask), authentication , data persistence  all handled automatically
+- 🔐 **Integrated Authentication**: Seamless Flask auth setup with protected routes
+- 🎯 **TypeScript First**: Clean, strongly-typed React codebases by default
+- ⚡ **Real-time Capabilities**: Real-time features via Flask integration
+- 📊 **Automated Database Setup**: Auto-generated SQLite schemas and migrations
 
 ## 🎥 Project Demo
 
@@ -68,11 +68,11 @@ Running `saas-builder init` guides you through:
 - Default Template
 
 🧩 **Tech Stack Selection**
-- Next.js (UI Only): For frontend-only projects
-- Next.js + Supabase: For full-stack projects with authentication, data persistence, and real-time features
+- React (UI Only): For frontend-only projects
+- React + Flask + SQLite: For full-stack projects with authentication, data persistence, and real-time features
 
-🔑 **Supabase Configuration**
-- Project URL, Anon Key, Access Token
+🔑 **Database Configuration**
+- SQLite database auto-setup
 
 🤖 **AI Model Selection**
 - Claude 3.7 Sonnet (Anthropic)
@@ -104,12 +104,12 @@ The SaaS-Builder CLI handles:
 
 | Task | Details |
 |------|---------|
-| Project Initialization | Scaffold Next.js project with TypeScript integration |
-| Authentication Setup | Integrated Supabase Auth with UI & route protection |
-| Database Schema | Automatic DB setup, models, and SQL migrations |
-| Dependency Installation | npm dependencies and dev environment configuration |
-| Real-time Setup | Native integration of Supabase real-time capabilities |
-| Development Server | Auto-start Next.js dev server for immediate preview |
+| Project Initialization | Scaffold React + Flask project with TypeScript integration |
+| Authentication Setup | Integrated Flask Auth with UI & route protection |
+| Database Schema | Automatic SQLite DB setup, models, and migrations |
+| Dependency Installation | npm & pip dependencies and dev environment configuration |
+| Real-time Setup | Native integration of Flask real-time capabilities |
+| Development Server | Auto-start React and Flask dev servers for immediate preview |
 
 ## 📝 Example Output
 
@@ -119,7 +119,7 @@ The SaaS-Builder CLI handles:
 │                                             │
 │ Project:       task-manager                 │
 │ Description:   App for managing tasks       │
-│ Tech Stack:    Next.js + Supabase           │
+│ Tech Stack:    React + Flask + SQLite      │
 │ Files Created: 42                           │
 │ Status:        FINISHED                     │
 │                                             │
@@ -132,7 +132,7 @@ SaaS-Builder aims to revolutionize application development, leveraging advanced 
 
 ## 🎯 Our Mission
 
-To build the most intuitive, powerful AI-native SaaS generation framework—making software development dramatically faster, simpler, and more creative.
+To build the most intuitive, powerful AI-native SaaS generation framework making software development dramatically faster, simpler, and more creative.
 
 ## 🤝 Contributing
 
@@ -154,4 +154,4 @@ Licensed under MIT – see LICENSE for details.
 
 ⭐ Support the framework by starring the repo!
 
-**SaaS-Builder — SaaS app development reimagined.**
+**SaaS-Builder   SaaS app development reimagined.**

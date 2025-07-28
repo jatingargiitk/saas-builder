@@ -240,7 +240,7 @@ class BuildAgent(BaseAgent):
         """Get the full name of a tech stack from its code."""
         tech_stacks = {
             "1": "Next.js (UI Only)",
-            "2": "Next.js + Supabase",
+            "2": "React + Flask + SQLite",
             "3": "Next.js with MongoDB"
         }
         return tech_stacks.get(tech_stack, "Unknown Tech Stack") 

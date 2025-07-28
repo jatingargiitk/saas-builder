@@ -49,10 +49,14 @@ Technical Requirements:
 6. Reusable UI components
 7. Responsive design breakpoints
 8. Modern image optimization
+9. Linting and formatting must pass (ESLint, Prettier)
+10. At least one example unit test using React Testing Library and Jest
+11. Each component should have a brief JSDoc or TypeScript doc comment
+12. Support for easy color theme customization (e.g., light/dark mode toggle or clear color variables)
 
 Project Structure:
 1. /src - Main application code
-   - /src/pages - Route-based pages with React Router
+   - /src/pages - Route-based pages with React Router (include Home and 404)
    - /src/layouts - Layout wrapper components
    - /src/components - Reusable UI components
    - /src/assets - Static assets like images

@@ -5,3 +5,10 @@ anthropic>=0.18.0
 google-generativeai>=0.3.2
 python-dotenv>=1.0.0 
 json-repair>=0.30.0
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-JWT-Extended==4.5.2
+Flask-Migrate==4.0.5
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+Werkzeug==2.3.7
