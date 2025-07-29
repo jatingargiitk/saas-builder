@@ -74,12 +74,12 @@ def init(
     # Show tech stack options if not provided
     if not tech_stack:
         console.print("\n[bold]Available Tech Stacks:[/bold]\n")
-        console.print("1. Next.js (UI Only)")
+        console.print("1. React.js (UI Only)")
         console.print("   Modern frontend-focused application")
         console.print("   Features: Beautiful UI, TypeScript, Tailwind CSS\n")
-        console.print("2. Next.js + Supabase")
-        console.print("   Full-stack app with serverless backend")
-        console.print("   Features: Authentication, Real-time, PostgreSQL, TypeScript\n")
+        console.print("2. React + Flask + SQLite")
+        console.print("   Full-stack app with Flask backend and SQLite database ")
+        console.print("   Features: Authentication, Real-time, SQLite, TypeScript\n")
         
         tech_stack = typer.prompt("Select your tech stack (enter number)", default="1")
     
@@ -88,11 +88,11 @@ def init(
     supabase_anon_key = None
     supabase_token = None
     
-    if tech_stack == "2":
-        console.print("\n[bold]For Supabase integration, please provide your credentials:[/bold]")
-        supabase_url = typer.prompt("Supabase Project URL",hide_input=True)
-        supabase_anon_key = typer.prompt("Supabase Anon Key",hide_input=True)
-        supabase_token = typer.prompt("Supabase Access Token",hide_input=True)
+    # if tech_stack == "2":
+    #     console.print("\n[bold]For Supabase integration, please provide your credentials:[/bold]")
+    #     supabase_url = typer.prompt("Supabase Project URL",hide_input=True)
+    #     supabase_anon_key = typer.prompt("Supabase Anon Key",hide_input=True)
+    #     supabase_token = typer.prompt("Supabase Access Token",hide_input=True)
     
     # Show model options if not provided
     if not model:

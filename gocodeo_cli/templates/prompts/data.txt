@@ -9,142 +9,76 @@ Here is a successful implementation of a similar project to use as reference. Fo
 
 {reference_code}
 
-{description_reference_code}
 
 # Current Project Structure
 The current project has the following structure:
 
 {project_structure}
-CRITICAL DATA PERSISTENCE RULES:
-1. Form Submissions:
-   - MUST save ALL user interactions to Supabase
-   - Show loading + success/error states
-   - Instant UI feedback
 
-2. Implementation:
-   - COPY EXACT reference patterns
-   - SAME table structure
-   - IDENTICAL error handling
-   - MATCH loading states
+# DATA PERSISTENCE IMPLEMENTATION GUIDELINES (React + Flask + SQLite)
 
-3. Requirements:
-   - TypeScript types for all data
-   - Validate all inputs
-   - Disable during processing
-   - Toast notifications
-   - Error boundaries
-CRITICAL IMPLEMENTATION RULES:
-1. ONLY implement features that are EXPLICITLY present in the reference code above
-2. DO NOT add any additional features, tables, or functionality not shown in the reference
-3. Follow the EXACT same file structure and component organization
-4. Use the SAME naming conventions for components, functions, and variables
-5. Implement the SAME level of error handling and validation
-6. If the reference has only cart functionality, DO NOT add wishlist or other features
-7. Keep the implementation FOCUSED and MINIMAL - only what's in the reference
-8. Implement EXACTLY the same data models and table structure as the reference
-9. Use the SAME database operations (insert, update, delete) as shown in the reference
-10. Copy the SAME error handling patterns for database operations
+## Context
+- UI and authentication flows are already implemented (login, logout, protected views, etc.).
+- Your task is to implement CRUD/data persistence for the main features/entities (e.g., employees, products, orders, etc.) as shown in the sidebar or main navigation (AS PER USER USE CASE , REFER THE REFERENCE CODE).
+
+## Step 1: API Integration
+- Use RESTful API endpoints provided by the Flask backend for all data operations (create, read, update, delete).
+- Implement all API calls in the frontend using a dedicated service layer (e.g., src/services/).
+- Ensure all API requests include authentication (JWT cookie) as required.
+- Use TypeScript for all frontend code and Python type hints for backend code.
+
+## Step 2: State Management & UI Sync
+- On all user actions (add, edit, delete, etc.), update the frontend state immediately after a successful API response.
+- Show loading, success, and error states for all data operations.
+- Use toast notifications or similar UI feedback for user actions.
+- Ensure all data is fetched from the backend on page/component load and after mutations.
+- Keep UI and backend data in sync at all times.
+
+## Step 3: Error Handling & Validation
+- Validate all user inputs before sending to the backend.
+- Handle all API errors gracefully and show user-friendly notifications.
+- Ensure proper error boundaries in the UI.
+- Use environment variables for API URLs and configuration.
+
+## Folder Structure
+- frontend/ (React + Vite + TypeScript)
+  - src/
+    - components/
+    - pages/
+    - services/ (API calls for data persistence)
+    - contexts/
+    - hooks/
+- backend/ (Flask + SQLite)
+  - app/
+    - api/ (Flask Blueprints for each entity/feature)
+    - models.py
+    - __init__.py
+    - utils/
+
+# CRITICAL IMPLEMENTATION RULES
+1. ONLY implement features/entities that are EXPLICITLY present in the reference code above.
+2. DO NOT add any additional features, tables, or functionality not shown in the reference.
+3. Follow the EXACT same file structure and component organization.
+4. Use the SAME naming conventions for components, functions, and variables.
+5. Implement the SAME level of error handling and validation.
+6. Keep the implementation FOCUSED and MINIMAL - only what's in the reference.
 
 # EXISTING PROJECT FILES
 Here are the key files already in the project that you should reference and build upon:
 
 {existing_files}
-FIRST STEP (CRITICAL): 
-1. Compare reference_code with existing_files to identify ALL missing files and components
-2. Create a complete list of all files that need to be created or modified
-3. Before writing any code, verify that ALL critical Next.js files (layout.tsx, page.tsx) are included
-4. Pay special attention to maintaining the existing directory and component structure
-The project scaffold, UI components, authentication system, and SQL queries (with policies) are already created. Now you need to implement the user interaction functionality with proper data persistence and UI updates.
-IMPORTANT INSTRUCTIONS:
-- DO NOT include SQL files or database schema in your response as they are already generated
-- Focus ONLY on implementing data persistence in the relevant frontend files
 
-For Supabase:
-1. Define database schema with appropriate tables, relationships, and indexes
-2. Create SQL migrations for the schema
-3. Implement Row Level Security policies for data access control
-4. Create TypeScript types for database models
-5. Implement data access services/hooks for CRUD operations
-6. Set up real-time subscriptions where appropriate
+# IMPLEMENTATION OBJECTIVES
+- Implement CRUD/data persistence for all main features/entities using RESTful Flask API.
+- Ensure global state sync and UI feedback for all data operations.
+- Provide clear error handling and user feedback.
+- Use secure, real-world data flows.
+- Maintain a clear separation between frontend and backend code.
 
+Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. Do NOT include any explanations or markdown outside the JSON object.
 
+ULTRA IMPORTANT GUIDELINES -
+This is the data persistance  phase . Make sure to complete all the frontend related codes in this step.
 
-Make sure to:
-1. Design a normalized database schema that avoids redundancy
-2. Implement proper error handling for database operations
-3. Consider performance implications of your data model
-4. Add validation for data operations
-5. Include proper TypeScript typing throughout
-6. Fully integrate with the existing authentication system
-
-# Data Implementation Steps
-1. Review reference data patterns:
-   - Check how user interactions are saved
-   - Note real-time update patterns
-   - Document state management approach
-
-2. Compare with current implementation:
-   - Verify table structures match
-   - Check existing data operations
-   - Identify missing functionality
-
-3. Implementation Focus:
-   - Add ONLY data operations present in reference
-   - Match exact table structure
-   - Use same state management patterns
-   - NO additional data features
-
-Remember to structure your response as a proper JSON object with file paths as keys and file contents as values. 
-
-
-
-ULTRA IMPORTANT THING :
-
-1. Data Persistence Files:
-   - Save all changes(like user interactions) to Supabase tables, on item selection/deselection
-   - Database schema migrations
-   - API routes for data operations
-   - Data fetching hooks/utilities
-   - Sync user data with Supabase in real-time, also properly show on ui
-   - Ensure data consistency
-2.  User Actions and UI Feedback:
-   - Show immediate visual feedback for all user actions
-   - For an example, when user clicks on an interactive element, then changes should be reflected on ui 
-   - Display loading states during operations
-   - Show success/error notifications
-   - Update related UI elements (e.g. counters, lists)
-3.  When a user performs an action (e.g., selecting/deselecting items):
-   - Update the relevant table in Supabase immediately
-   - Show loading state during the operation
-   - Display success/error notifications
-   - Update UI counters/badges in real-time
-   - Ensure the changes are reflected in the relevant views
-4. State Management:
-   - Implement proper state updates after successful operations
-   - Maintain consistency across different views
-
-IMPLEMENTATION GOAL: DATA PERSISTENCE FOR USER-ACTIONED STATE
-Context:
-Authentication and UI components are already in place (login, signup, protected views, and core layout are functional).
-
-Your Task:
-Focus solely on implementing data persistence for a specific user-interacted feature. When the user performs an action (e.g., button click or selection):
-
-Update the relevant state on the frontend to reflect changes in real-time
-
-Persist the updated data to the backend, linked to the authenticated user
-
-On page reload or user login, retrieve and display the persisted data accurately
-
-Outcome:
-After completing this step, the app should have a seamless flow combining UI, authentication, and backend-linked data persistence for user-driven interactions.
-You have to make sure that , you are doing thing on existing codes.
-
-CRITICAL ERROR PREVENTION:
-1. NEVER reference files that aren't explicitly created
-2. ALWAYS verify component imports resolve to files you've created
-3. NEVER mix conflicting client libraries (e.g., only use @supabase/auth-helpers-nextjs for auth)
-4. Make sure to use proper supabase functions , imported from correct package & used properly.
-6. NEVER use shorthand imports , wrong functions for Supabase client creation
-
-
+- Make sure all these apis are properly  implemented in both frontend & backend as well as integrated.
+- Never overhallucinate , Be accurate & follow the reference code. Customized static content a bit as per user instruction & use case . Codewise follow reference code.

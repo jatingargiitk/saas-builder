@@ -137,10 +137,6 @@ class BaseAgent:
         Handles JSON parsing, extraction and file writing.
         """
         try:
-            # Save the raw response
-            # debug_file_path = os.path.join(self.project_dir, "debug_response.json")
-            # with open(debug_file_path, "w", encoding="utf-8") as f:
-            #     f.write(response)
             
             # Clean up the response
             response = response.strip()
@@ -160,25 +156,32 @@ class BaseAgent:
                 response = repair_json(response)
             except ImportError:
                 logger.warning("json_repair package not available, skipping JSON repair")
+                
+                # Basic repair attempt if json_repair isn't available
+                # Fix common issues with malformed JSON
+                response = re.sub(r',\s*}', '}', response)  # Remove trailing commas
+                response = re.sub(r',\s*]', ']', response)  # Remove trailing commas in arrays
             
-            # Save preprocessed response
-            # with open(os.path.join(self.project_dir, "preprocessed_response.json"), "w", encoding="utf-8") as f:
-            #     f.write(response)
-            
+
             # Parse JSON response
             try:
                 files_data = json.loads(response)
+                logger.info("Successfully parsed JSON response")
             except json.JSONDecodeError as e:
                 logger.error(f"JSON parse error: {str(e)}")
                 
                 # Try to extract JSON with regex as fallback
                 try:
+                    logger.info("Attempting JSON extraction with regex")
                     json_pattern = r'(\{(?:[^{}]|(?:\{(?:[^{}]|(?:\{[^{}]*\}))*\}))*\})'
                     matches = re.findall(json_pattern, response)
                     if matches:
                         extracted_json = matches[0]
+                        logger.info(f"Found JSON match with length {len(extracted_json)}")
                         files_data = json.loads(extracted_json)
+                        logger.info("Successfully parsed extracted JSON")
                     else:
+                        logger.error("No JSON pattern found in response")
                         return {}
                 except Exception as ex:
                     logger.error(f"Failed to extract JSON: {str(ex)}")
@@ -187,18 +190,30 @@ class BaseAgent:
             # Process the files data
             generated_files = {}
             
-            if isinstance(files_data, list):
-                # Handle list of file objects
-                for file_obj in files_data:
-                    if isinstance(file_obj, dict) and 'path' in file_obj and 'content' in file_obj:
-                        if isinstance(file_obj['content'], str):
-                            self._write_file(file_obj['path'], file_obj['content'])
-                            generated_files[file_obj['path']] = file_obj['content']
-            
-            elif isinstance(files_data, dict):
-                # Check if we have a "files" and "migrations" structure
-                if "files" in files_data and isinstance(files_data["files"], dict):
+            # Handle new format with frontend and backend sections
+            if isinstance(files_data, dict):
+                # Check for frontend/backend format
+                if "frontend" in files_data and isinstance(files_data["frontend"], dict):
+                    logger.info(f"Processing {len(files_data['frontend'])} frontend files")
+                    for file_path, content in files_data["frontend"].items():
+                        full_path = os.path.join("frontend", file_path)
+                        if isinstance(content, str):
+                            self._write_file(full_path, content)
+                            generated_files[full_path] = content
+                
+                # Process backend files
+                if "backend" in files_data and isinstance(files_data["backend"], dict):
+                    logger.info(f"Processing {len(files_data['backend'])} backend files")
+                    for file_path, content in files_data["backend"].items():
+                        full_path = os.path.join("backend", file_path)
+                        if isinstance(content, str):
+                            self._write_file(full_path, content)
+                            generated_files[full_path] = content
+                
+                # Check if we have a "files" and "migrations" structure (legacy format)
+                elif "files" in files_data and isinstance(files_data["files"], dict):
                     # Process regular files
+                    logger.info(f"Processing {len(files_data['files'])} files from 'files' object")
                     for file_path, content in files_data["files"].items():
                         if isinstance(content, str):
                             self._write_file(file_path, content)
@@ -209,6 +224,7 @@ class BaseAgent:
                         migrations_dir = os.path.join(self.project_dir, "migrations")
                         os.makedirs(migrations_dir, exist_ok=True)
                         
+                        logger.info(f"Processing {len(files_data['migrations'])} SQL migrations")
                         for file_name, content in files_data["migrations"].items():
                             if isinstance(content, str):
                                 migration_path = os.path.join("migrations", file_name)
@@ -216,10 +232,24 @@ class BaseAgent:
                                 generated_files[migration_path] = content
                 else:
                     # Process all files directly from dictionary
+                    logger.info(f"Processing {len(files_data)} files from direct dictionary")
                     for file_path, content in files_data.items():
                         if isinstance(content, str):
                             self._write_file(file_path, content)
                             generated_files[file_path] = content
+            elif isinstance(files_data, list):
+                # Handle list of file objects
+                logger.info(f"Processing list of {len(files_data)} file objects")
+                for file_obj in files_data:
+                    if isinstance(file_obj, dict) and 'path' in file_obj and 'content' in file_obj:
+                        if isinstance(file_obj['content'], str):
+                            self._write_file(file_obj['path'], file_obj['content'])
+                            generated_files[file_obj['path']] = file_obj['content']
+            
+            # Log results
+            logger.info(f"Successfully processed {len(generated_files)} files")
+            if not generated_files:
+                logger.warning("No files were generated from the response")
             
             # Update memory with the new files
             self.memory.add_files(generated_files)
