@@ -42,7 +42,7 @@ pip install saas-builder
 Or install from source:
 
 ```bash
-git clone https://github.com/jatingarg619/saas-builder.git
+git clone https://github.com/jatingargiitk/saas-builder.git
 cd saas-builder
 pip install -e .
 ```
@@ -148,7 +148,7 @@ Licensed under MIT – see LICENSE for details.
 
 ## 🔗 Useful Links
 
-- GitHub: [github.com/jatingarg619/saas-builder](https://github.com/jatingarg619/saas-builder)
+- GitHub: [github.com/jatingargiitk/saas-builder](https://github.com/jatingargiitk/saas-builder)
 - PyPI: [pypi.org/project/saas-builder](https://pypi.org/project/saas-builder)
 - Documentation: Coming soon!
 
